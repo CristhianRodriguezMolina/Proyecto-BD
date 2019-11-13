@@ -148,7 +148,29 @@ CREATE TABLE `Persona` (
 --
 
 INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
-('1234', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313 598 5016');
+('1201', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313-598-8016');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1202', 'Cristhian Camilo Rodriguez Molina', 'cristhwalker@gmail.com', '313-452-2456');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1203', 'Daniel Bonilla Guevarra', 'bonia@gmail.com', '312-452-8354');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1204', 'Andres llinas', 'llinas@gmail.com', '315-351-624');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1205', 'Wilmar Stiven Valencia Cardona', 'wilzhar@gmail.com', '312-642-6247');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1206', 'Cristianb Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1207', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1208', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
+
 
 -- --------------------------------------------------------
 
