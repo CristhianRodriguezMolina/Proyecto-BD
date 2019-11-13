@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 13-11-2019 a las 15:50:36
+-- Tiempo de generación: 13-11-2019 a las 15:48:46
 -- Versión del servidor: 10.1.41-MariaDB-0ubuntu0.18.04.1
 -- Versión de PHP: 7.2.24-0ubuntu0.18.04.1
 
@@ -143,6 +143,13 @@ CREATE TABLE `Persona` (
   `telefono` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `Persona`
+--
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1234', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313 598 5016');
+
 -- --------------------------------------------------------
 
 --
@@ -230,13 +237,6 @@ CREATE TABLE `Vuelo` (
   `fechaSalida` datetime NOT NULL,
   `fechaLlegada` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `Vuelo`
---
-
-INSERT INTO `Vuelo` (`referencia`, `empresa`, `fechaSalida`, `fechaLlegada`) VALUES
-('A34Y', 'AVIANCA', '2019-11-14 00:00:00', '2019-11-22 00:00:00');
 
 --
 -- Índices para tablas volcadas
