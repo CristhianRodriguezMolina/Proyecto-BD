@@ -1,22 +1,23 @@
-from flask import Flask
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def Index():
-    return 'Hello World'
+@app.route('/<msg>')
+def index(msg):
+	return render_template("base.html", msg = msg)
 
-@app.route('/add_contact')
-def add_contact():
-    return 'add contact'
+@app.route('/cliente', methods = ["POST","GET"])
+def crear_cliente():
 
-@app.route('/edit')
-def edit_contact():
-    return 'edit contact'
+	if request.method == "POST":
+		cliente = request.form["nm"]
+		return redirect(url_for("index", msg = cliente))
+	else:
+		
+		return render_template("cliente.html")
 
-@app.route('/edit')
-def delete_contact():
-    return 'delete contact'
+
+
 
 
 if __name__ == '__main__':
