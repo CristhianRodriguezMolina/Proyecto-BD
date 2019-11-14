@@ -2,9 +2,9 @@ from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
-@app.route('/<msg>')
-def index(msg):
-	return render_template("login.html")
+@app.route('/')
+def index():
+	return render_template("index.html")
 
 @app.route('/cliente', methods = ["POST","GET"])
 def crear_cliente():
