@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/<msg>')
 def index(msg):
-	return render_template("base.html", msg = msg)
+	return render_template("login.html")
 
 @app.route('/cliente', methods = ["POST","GET"])
 def crear_cliente():
@@ -16,7 +16,10 @@ def crear_cliente():
 		
 		return render_template("cliente.html")
 
+@app.route('/persona')
+def crear_persona():
 
+	return render_template("form_component.html")
 
 
 
