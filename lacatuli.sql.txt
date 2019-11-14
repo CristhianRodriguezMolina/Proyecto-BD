@@ -48,6 +48,12 @@ CREATE TABLE `Bus` (
   `Conductor_Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `Bus` (`placa`, `numAsientos`, `soat`, `empresa`, `Conductor_Persona_cedula`) VALUES
+('MSK-754', 20, '6473961023', 'Coorbuquin', '1201');
+
+INSERT INTO `Bus` (`placa`, `numAsientos`, `soat`, `empresa`, `Conductor_Persona_cedula`) VALUES
+('GAD-975', 25, '4753846784', 'Buses Armenia', '1202');
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +76,12 @@ CREATE TABLE `Cliente` (
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `Cliente` (`activo`, `Persona_cedula`) VALUES
+('S', '1203');
+
+INSERT INTO `Cliente` (`activo`, `Persona_cedula`) VALUES
+('S', '1204');
+
 -- --------------------------------------------------------
 
 --
@@ -80,6 +92,12 @@ CREATE TABLE `Conductor` (
   `numLicencia` varchar(15) NOT NULL,
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
+('647383', '1201');
+
+INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
+('735836', '1202');
 
 -- --------------------------------------------------------
 
@@ -93,6 +111,21 @@ CREATE TABLE `Grupo` (
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `Grupo` (`Reserva_id`, `Persona_cedula`) VALUES
+(1, '1206', '1206');
+
+INSERT INTO `Grupo` (`Reserva_id`, `Persona_cedula`) VALUES
+(1, '1206', '1206');
+
+INSERT INTO `Grupo` (`Reserva_id`, `Persona_cedula`) VALUES
+(1, '1207', '1207');
+
+INSERT INTO `Grupo` (`Reserva_id`, `Persona_cedula`) VALUES
+(2, '1208', '1208');
+
+INSERT INTO `Grupo` (`Reserva_id`, `Persona_cedula`) VALUES
+(2, '1209', '1209');
+
 -- --------------------------------------------------------
 
 --
@@ -103,6 +136,9 @@ CREATE TABLE `Guia` (
   `id` tinyint(4) NOT NULL,
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Guia` (`id`, `Persona_cedula`) VALUES
+(1, '1234');
 
 -- --------------------------------------------------------
 
@@ -202,6 +238,11 @@ CREATE TABLE `Reserva` (
   `reservante` char(10) NOT NULL,
   `Guia_Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Reserva` (`id`, `fecha`, `costo`, `reservante`, `Guia_Persona_cedula`) VALUES
+(1, '2019-12-14 00:00:00', '9999999.99', '1203', '1205');
+INSERT INTO `Reserva` (`id`, `fecha`, `costo`, `reservante`, `Guia_Persona_cedula`) VALUES
+(2, '2019-01-14 00:00:00', '100000.0', '1204', '1205');
 
 -- --------------------------------------------------------
 
