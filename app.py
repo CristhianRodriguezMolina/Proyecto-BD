@@ -16,10 +16,21 @@ def crear_cliente():
 		
 		return render_template("cliente.html")
 
-@app.route('/persona')
+@app.route('/persona', methods = ["POST","GET"])
 def crear_persona():
 
-	return render_template("form_component.html")
+	if request.method == "POST":
+		cedula = request.form["cedula"]
+		nombre = request.form["nombre"]
+		correo = request.form["correo"]
+		telefono = request.form["tel"]
+
+		print("Cedula:",cedula," nombre: ",nombre," correo: ",correo," telefono: ",telefono)
+		return redirect(url_for("index", msg = cedula))
+
+	else:
+
+		return render_template("crear_persona.html")
 
 
 
