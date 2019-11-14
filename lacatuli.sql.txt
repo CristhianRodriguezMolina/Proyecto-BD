@@ -163,13 +163,19 @@ INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
 ('1205', 'Wilmar Stiven Valencia Cardona', 'wilzhar@gmail.com', '312-642-6247');
 
 INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
-('1206', 'Cristianb Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
+('1206', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
 
 INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
-('1207', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
+('1207', 'Jaime Antonio Nieto', 'nietoadictolol@gmail.com', '317-356-2532');
 
 INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
-('1208', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275');
+('1208', 'Luisa Cotte', 'lussolar@gmail.com', '313-135-6246');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1209', 'Yelsid Mami', 'yelsidmami@gmail.com', '317-646-3858');
+
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1210', 'Sergio Osorio Angel', 'sergiohacks@gmail.com', '312-647-8359');
 
 
 -- --------------------------------------------------------
