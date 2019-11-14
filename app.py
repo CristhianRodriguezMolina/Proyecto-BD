@@ -1,6 +1,13 @@
 from flask import Flask, render_template, redirect, url_for, request
-
+from flask_mysql import MySQL
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'admin'
+app.config['MYSQL_PASSWORD'] = '12345'
+app.config['MYSQL_DB'] = 'lacatuli'
+
+mysql = MySQL(app)
 
 @app.route('/')
 def index():
@@ -13,6 +20,7 @@ def crear_cliente():
 		cliente = request.form["nm"]
 		return redirect(url_for("index", msg = cliente))
 	else:
+
 		
 		return render_template("cliente.html")
 
@@ -24,6 +32,11 @@ def crear_persona():
 		nombre = request.form["nombre"]
 		correo = request.form["correo"]
 		telefono = request.form["tel"]
+
+		cur = mysql.connection.cursor()
+		cur.execute('INSERT INTO PERSONA (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
+		(cedula, nombre, correo, telefono))
+		mysql.connection.commit()
 
 		print("Cedula:",cedula," nombre: ",nombre," correo: ",correo," telefono: ",telefono)
 		return redirect(url_for("index", msg = cedula))
