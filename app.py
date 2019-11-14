@@ -1,8 +1,18 @@
 from flask import Flask, render_template, redirect, url_for, request
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_DB'] = 'lacatuli'
+mysql = MySQL(app)
 
 @app.route('/')
+def login():
+	return render_template("login.html")
+
+@app.route('/index')
 def index():
 	return render_template("index.html")
 
