@@ -3,8 +3,8 @@ from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_USER'] = 'admin'
+app.config['MYSQL_PASSWORD'] = '12345'
 app.config['MYSQL_DB'] = 'lacatuli'
 mysql = MySQL(app)
 
@@ -25,7 +25,7 @@ def crear_cliente():
 	else:
 		return render_template("cliente.html")
 
-@app.route('/persona', methods = ["POST", "GET"])
+@app.route('/crear_persona', methods = ["POST", "GET"])
 def crear_persona():
 
 	if request.method == "POST":
@@ -35,18 +35,23 @@ def crear_persona():
 		telefono = request.form["tel"]
 
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO PERSONA (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
-		(cedula, nombre, correo, telefono))
-		mysql.connection.commit()
-
-		print("Cedula:",cedula," nombre: ",nombre," correo: ",correo," telefono: ",telefono)
+		cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',(cedula, nombre, correo, telefono))
+		mysql.connection.commit()	
 		return redirect(url_for("index", msg = cedula))
 
 	else:
 
 		return render_template("crear_persona.html")
 
+@app.route('/personas')
+def listar_personas():
 
+	cur = mysql.connection.cursor()
+	cur.execute('SELECT * FROM Persona')
+
+	data = cur.fetchall()
+
+	return render_template("personas.html", personas = data)
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
