@@ -8,9 +8,17 @@ app.config['MYSQL_PASSWORD'] = '1234'
 app.config['MYSQL_DB'] = 'lacatuli'
 mysql = MySQL(app)
 
-@app.route('/')
+@app.route('/', methods=["POST", "GET"])
 def login():
-	return render_template("login.html")
+
+
+
+	if request.method == "POST":
+		usuario = request.form["usuario"]
+		contrasenia = request.form["contraseia"]
+		
+	else:
+		return render_template("login.html")
 
 @app.route('/index')
 def index():
@@ -59,9 +67,9 @@ def eliminar_persona(cedula):
 	cur = mysql.connection.cursor()
 	cur.execute(f'DELETE FROM Persona WHERE Persona.cedula = {cedula}')
 	mysql.connection.commit()
-	return redirect(url_for("index"))
+	return redirect(url_for("listar_personas"))
 
-@app.route('/editar_persona<cedula>', methods = ["POST","GET"])
+@app.route('/editar_persona<cedula>', methods = ["POST", "GET"])
 def editar_persona(cedula):
 	if request.method == "POST":
 		nombre = request.form["nombre"]
@@ -93,6 +101,8 @@ def generar_reportes(reporte):
 	else:	
 		return render_template("reportes.html")
 
+def verificarLogin(usuario, contasenia):
+	pass
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
 

@@ -258,19 +258,21 @@
           <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered">Sam Soffes</h5>
           <li class="mt">
-            <a class="active" href="reportes_lista">
+            <a class="active" href="index.html">
               <i class="fa fa-dashboard"></i>
-              <span>Reportes</span>
+              <span>Dashboard</span>
               </a>
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-users"></i>
+              <i class="fa fa-desktop"></i>
               <span>Personas</span>
               </a>
             <ul class="sub">
               <li><a href="personas">Listar Personas</a></li>
               <li><a href="crear_persona">Crear Persona</a></li>
+              <li><a href="panels.html">Panels</a></li>
+              <li><a href="font_awesome.html">Font Awesome</a></li>
             </ul>
           </li>
           <li class="sub-menu">
