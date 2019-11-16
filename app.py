@@ -53,14 +53,26 @@ def listar_personas():
 
 	return render_template("personas.html", personas = data)
 
-@app.route('/editar_persona<cedula>')
+@app.route('/editar_persona<cedula>', methods = ["POST","GET"])
 def editar_persona(cedula):
-	cur = mysql.connection.cursor()
-	sql = f'SELECT * FROM Persona WHERE cedula = {cedula}'
-	cur.execute(sql)
-	data = cur.fetchall()
 
-	return render_template("editar_persona.html", persona = data[0])
+	if request.method == "POST":
+		nombre = request.form["nombre"]
+		correo = request.form["correo"]
+		telefono = request.form["tel"]
+
+		cur = mysql.connection.cursor()
+		cur.execute('UPDATE Persona SET nombre = %s, correo = %s, telefono = %s WHERE cedula = %s',(nombre, correo, telefono, cedula))
+		mysql.connection.commit()	
+		return redirect(url_for("listar_personas"))
+	else:	
+
+		cur = mysql.connection.cursor()
+		sql = f'SELECT * FROM Persona WHERE cedula = {cedula}'
+		cur.execute(sql)
+		data = cur.fetchall()
+
+		return render_template("editar_persona.html", persona = data[0])
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
