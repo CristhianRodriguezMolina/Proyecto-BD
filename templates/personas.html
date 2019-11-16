@@ -17,6 +17,7 @@
                     <th>Nombre</th>
                     <th>E-mail</th>
                     <th>Telefono</th>
+                    <th>Activo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -26,6 +27,11 @@
                     <td>{{persona[1]}}</td>
                     <td>{{persona[2]}}</td>
                     <td>{{persona[3]}}</td>
+                    <td>
+                  <div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">
+                    <input type="checkbox" />
+                  </div>
+                    </td>
                     <td>
                       <a data-toggle="modal" href="personas.html#alertdelete{{persona[0]}}" button type="button" class="btn btn-round btn-danger">Eliminar</a>
                       
@@ -58,7 +64,7 @@
         </div>
      </section>
 </section>
-         
 
 
 {%endblock%}
+

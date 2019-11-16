@@ -61,7 +61,7 @@ def eliminar_persona(cedula):
 	mysql.connection.commit()
 	return redirect(url_for("listar_personas"))
 
-@app.route('/editar_persona<cedula>')
+@app.route('/editar_persona<cedula>', methods = ["POST", "GET"])
 def editar_persona(cedula):
 
 	if request.method == "POST":
