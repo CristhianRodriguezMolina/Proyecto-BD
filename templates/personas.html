@@ -27,11 +27,30 @@
                     <td>{{persona[2]}}</td>
                     <td>{{persona[3]}}</td>
                     <td>
-                      <a href = "/eliminar_persona{{persona[0]}}" button type="button" class="btn btn-round btn-danger">Eliminar</a>
+                      <a data-toggle="modal" href="personas.html#alertdelete{{persona[0]}}" button type="button" class="btn btn-round btn-danger">Eliminar</a>
+                      
                       <a href="/editar_persona{{persona[0]}}" class="btn btn-round btn-success">Editar</a>
                     <td>
                   </tr>
-                 {% endfor %} 
+
+                  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="alertdelete{{persona[0]}}" class="modal fade">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title">¿Está seguro que desea eliminar?</h4>
+                        </div>
+                        <div class="modal-footer">
+                          <a href = "/eliminar_persona{{persona[0]}}" button type="button" class="btn btn-round btn-danger">Eliminar</a>
+                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% endfor %} 
+                 
                 </tbody>
               </table>
             </div>

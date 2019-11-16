@@ -59,7 +59,7 @@ def eliminar_persona(cedula):
 	cur = mysql.connection.cursor()
 	cur.execute(f'DELETE FROM Persona WHERE Persona.cedula = {cedula}')
 	mysql.connection.commit()
-	return redirect(url_for("index"))
+	return redirect(url_for("listar_personas"))
 
 @app.route('/editar_persona<cedula>')
 def editar_persona(cedula):
@@ -69,6 +69,10 @@ def editar_persona(cedula):
 	data = cur.fetchall()
 
 	return render_template("editar_persona.html", persona = data[0])
+
+@app.route('/alertpopup')
+def alert_popup():
+	return render_template("alertpopup.html")
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
