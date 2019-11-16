@@ -1,0 +1,115 @@
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
+('1201', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313-598-8016'),
+('1202', 'Cristhian Camilo Rodriguez Molina', 'cristhwalker@gmail.com', '313-452-2456'),
+('1203', 'Daniel Bonilla Guevarra', 'bonia@gmail.com', '312-452-8354'),
+('1204', 'Andres llinas', 'llinas@gmail.com', '315-351-624'),
+('1205', 'Wilmar Stiven Valencia Cardona', 'wilzhar@gmail.com', '312-642-6247'),
+('1206', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275'),
+('1207', 'Jaime Antonio Nieto', 'nietoadictolol@gmail.com', '317-356-2532'),
+('1208', 'Luisa Cotte', 'lussolar@gmail.com', '313-135-6246'),
+('1209', 'Yelsid Mami', 'yelsidmami@gmail.com', '317-646-3858'),
+('1210', 'Sergio Osorio Angel', 'sergiohacks@gmail.com', '312-647-8359');
+
+INSERT INTO `Cliente` (`activo`, `Persona_cedula`) VALUES
+('S', '1203'),
+('S', '1204');
+
+INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
+('647383', '1201'),
+('735836', '1202');
+
+INSERT INTO `Bus` (`placa`, `numAsientos`, `soat`, `empresa`, `Conductor_Persona_cedula`) VALUES
+('GAD-975', 25, '4753846784', 'Buses Armenia', '1202'),
+('MSK-754', 20, '6473961023', 'Coorbuquin', '1201');
+
+INSERT INTO `Guia` (`id`, `Persona_cedula`) VALUES
+(1, '1205');
+
+INSERT INTO `Reserva` (`id`, `fechaSalida`, `costo`, `reservante`, `Guia_Persona_cedula`, `fechaLlegada`) VALUES
+(1, '2019-12-14 00:00:00', '9999999.99', '1203', '1205', '2019-12-17 00:00:00'),
+(2, '2019-01-14 00:00:00', '100000.00', '1204', '1205', '2019-01-23 00:00:00');
+
+INSERT INTO `Grupo` (`Reserva_id`, `Persona_cedula`) VALUES
+(1, '1206'),
+(1, '1207'),
+(1, '1208'),
+(2, '1209'),
+(2, '1210');
+
+INSERT INTO `Ciudad` (`codPostal`, `codCiudad`, `nombre`) VALUES
+('630002', '101', 'Armenia'),
+('630003', '102', 'Bogotá'),
+('630004', '103', 'Cali'),
+('630005', '104', 'Medellin'),
+('630006', '106', 'Cartagena'),
+('630007', '107', 'Cúcuta'),
+('630008', '108', 'Manizales'),
+('630009', '109', 'Bucaramanga'),
+('630010', '110', 'Barranquilla'),
+('630011', '111', 'Santa Marta'),
+('630012', '112', 'Pasto'),
+('630013', '113', 'Pereira');
+
+INSERT INTO `SitioTuristico` (`nombre`, `direccion`, `Ciudad_codCiudad`) VALUES
+('Caño Cristales', 'sierra de la Macarena', '117'),
+('Cerro Azul', 'Iglesia Centro Azul Primavera', '119'),
+('Minas de Nemocón', 'Cl. 2 ##0-05', '114'),
+('Parque Nacional Natural El Tuparro', 'Vichada', '115'),
+('Punta Gallinas', 'Península de La Guajira', '116'),
+('Reserva Río Claro', 'parte alta del municipio de Sonsó', '118');
+
+INSERT INTO `Hotel` (`nit`, `direccion`, `empresa`, `nombre`, `telefono`) VALUES
+('33001', 'CR 5#7 N', 'HotelStart', 'MIssan Hotel', '7359300'),
+('33002', 'CR 5 #31 LC Norte', 'GehtKers', 'Las palmas doradas', '7463700'),
+('33003', 'Cl. 5 # 2-4Z', 'Lilies', 'Hotel chicamocha', '7346224'),
+('33004', 'Cl. 5 # X3 Sur', 'HotelStart', 'Santivago', '7332894');
+
+INSERT INTO `Recorrido` (`id`, `descripcion`) VALUES
+(5601, 'Recorrido a las montañas'),
+(5602, 'Viaje por la costa'),
+(5603, 'Conociendo el Amazonas'),
+(5604, 'Solo recreación');
+
+INSERT INTO `Paquete` (`Recorrido_id`, `SitioTuristico_nombre`, `SitioTuristico_codCiudad`) VALUES
+(5601, 'Caño Cristales', '117'),
+(5601, 'Punta Gallinas', '116'),
+(5602, 'Cerro Azul', '119'),
+(5602, 'Minas de Nemocón', '114'),
+(5602, 'Reserva Río Claro', '118'),
+(5603, 'Minas de Nemocón', '114'),
+(5604, 'Parque Nacional Natural El Tuparro', '115');
+
+INSERT INTO `Vuelo` (`referencia`, `empresa`, `fechaSalida`, `fechaLlegada`) VALUES
+('BO42773T', 'Avianca', '2019-10-31 23:00:00', '2019-11-01 08:50:00'),
+('KL35325R', 'Caribe Airlines', '2019-11-04 08:00:00', '2019-11-04 23:00:00'),
+('MR35623Q', 'LATAM', '2019-11-24 13:00:00', '2019-11-24 19:00:00'),
+('RB64701C', 'LATAM', '2019-11-03 20:45:00', '2019-11-04 12:00:00'),
+('RG47637M', 'Avianca', '2019-11-15 08:00:00', '2019-11-18 15:30:00'),
+('VC52674B', 'Avianca', '2019-11-26 10:00:00', '2019-11-26 20:00:00');
+
+INSERT INTO `Viaje` (`id`, `Recorrido_id`, `Reserva_id`) VALUES
+(901, 5601,1),
+(902, 5602,1),
+(903, 5603,1),
+(904, 5604,1),
+(905, 5602,2),
+(906, 5604,2);
+
+INSERT INTO `Transporte` (`Bus_placa`, `Viaje_id`) VALUES
+('GAD-975', 901),
+('MSK-754', 901),
+('GAD-975', 902),
+('MSK-754', 902),
+('GAD-975', 904),
+('MSK-754', 906);
+
+INSERT INTO `Tiqueteria` (`Vuelo_referencia`, `asiento`, `Viaje_id`, `fechaSalida`, `fechaLlegada`) VALUES
+('MR35623Q', 'A24', 903, '2019-11-19 15:00:00', '2019-11-19 12:00:00'),
+('RG47637M', 'A12', 905, '2019-11-08 22:00:00', '2019-11-09 05:00:00'),
+('RG47637M', 'B23', 903, '2019-11-03 08:00:00', '2019-11-04 17:00:00');
+
+INSERT INTO `Acomodacion` (`habitacion`, `Hotel_nit`, `fechaLlegada`, `fechaSalida`, `Viaje_id`) VALUES
+('703', '33002', '2019-11-03 00:00:00', '2019-11-22 00:00:00', 905),
+('712', '33002', '2019-11-27 00:00:00', '2019-11-29 00:00:00', 906);
+
+

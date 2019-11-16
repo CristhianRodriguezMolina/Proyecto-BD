@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 16-11-2019 a las 15:18:49
+-- Tiempo de generación: 16-11-2019 a las 16:39:04
 -- Versión del servidor: 10.1.41-MariaDB-0ubuntu0.18.04.1
 -- Versión de PHP: 7.2.24-0ubuntu0.18.04.1
 
@@ -48,6 +48,14 @@ CREATE TABLE `Bus` (
   `Conductor_Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `Bus`
+--
+
+INSERT INTO `Bus` (`placa`, `numAsientos`, `soat`, `empresa`, `Conductor_Persona_cedula`) VALUES
+('GAD-975', 25, '4753846784', 'Buses Armenia', '1202'),
+('MSK-754', 20, '6473961023', 'Coorbuquin', '1201');
+
 -- --------------------------------------------------------
 
 --
@@ -56,7 +64,8 @@ CREATE TABLE `Bus` (
 
 CREATE TABLE `Ciudad` (
   `codPostal` varchar(15) NOT NULL,
-  `codCiudad` varchar(3) NOT NULL
+  `codCiudad` varchar(3) NOT NULL,
+  `nombre` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -70,6 +79,14 @@ CREATE TABLE `Cliente` (
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `Cliente`
+--
+
+INSERT INTO `Cliente` (`activo`, `Persona_cedula`) VALUES
+('S', '1203'),
+('S', '1204');
+
 -- --------------------------------------------------------
 
 --
@@ -81,6 +98,26 @@ CREATE TABLE `Conductor` (
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `Conductor`
+--
+
+INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
+('647383', '1201'),
+('735836', '1202');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Cuenta`
+--
+
+CREATE TABLE `Cuenta` (
+  `usuario` varchar(20) NOT NULL,
+  `contraseña` varchar(30) DEFAULT NULL,
+  `Cliente_Persona_cedula` char(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -89,7 +126,6 @@ CREATE TABLE `Conductor` (
 
 CREATE TABLE `Grupo` (
   `Reserva_id` smallint(6) NOT NULL,
-  `Cliente_Persona_cedula` char(10) NOT NULL,
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -103,6 +139,13 @@ CREATE TABLE `Guia` (
   `id` tinyint(4) NOT NULL,
   `Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `Guia`
+--
+
+INSERT INTO `Guia` (`id`, `Persona_cedula`) VALUES
+(1, '1205');
 
 -- --------------------------------------------------------
 
@@ -125,9 +168,9 @@ CREATE TABLE `Hotel` (
 --
 
 CREATE TABLE `Paquete` (
-  `Recorrido_id` double NOT NULL,
+  `Recorrido_id` smallint(6) NOT NULL,
   `SitioTuristico_nombre` varchar(50) NOT NULL,
-  `SitioTuristico_direccion` varchar(50) NOT NULL
+  `SitioTuristico_codCiudad` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -140,16 +183,25 @@ CREATE TABLE `Persona` (
   `cedula` char(10) NOT NULL,
   `nombre` varchar(40) NOT NULL,
   `correo` varchar(70) NOT NULL,
-  `telefono` varchar(15) NOT NULL
+  `telefono` varchar(15) NOT NULL,
+  `activo` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `Persona`
 --
 
-INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
-('10', 'Jaime niero asljfh', 'jmarrobaspmcom', '234234234'),
-('7777', 'vegetta', 'v@gmail.com', '8777');
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`, `activo`) VALUES
+('1201', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313-598-8016', NULL),
+('1202', 'Cristhian Camilo Rodriguez Molina', 'cristhwalker@gmail.com', '313-452-2456', NULL),
+('1203', 'Daniel Bonilla Guevarra', 'bonia@gmail.com', '312-452-8354', NULL),
+('1204', 'Andres llinas', 'llinas@gmail.com', '315-351-624', NULL),
+('1205', 'Wilmar Stiven Valencia Cardona', 'wilzhar@gmail.com', '312-642-6247', NULL),
+('1206', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275', NULL),
+('1207', 'Jaime Andres Nieto', 'nietoadictolol@gmail.com', '317-356-2532', NULL),
+('1208', 'Luisa Cotte', 'lussolar@gmail.com', '313-135-6246', NULL),
+('1209', 'Yelsid Mami', 'yelsidmami@gmail.com', '317-646-3858', NULL),
+('1210', 'Sergio Osorio Angel', 'sergiohacks@gmail.com', '312-647-8359', NULL);
 
 -- --------------------------------------------------------
 
@@ -158,7 +210,7 @@ INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
 --
 
 CREATE TABLE `Recorrido` (
-  `id` double NOT NULL,
+  `id` smallint(6) NOT NULL,
   `descripcion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -170,11 +222,11 @@ CREATE TABLE `Recorrido` (
 
 CREATE TABLE `Reserva` (
   `id` smallint(6) NOT NULL,
-  `fechaInicio` datetime NOT NULL,
-  `fechaFin` datetime NOT NULL,
+  `fechaSalida` datetime NOT NULL,
   `costo` decimal(9,2) NOT NULL,
   `reservante` char(10) NOT NULL,
-  `Guia_Persona_cedula` char(10) NOT NULL
+  `Guia_Persona_cedula` char(10) NOT NULL,
+  `fechaLlegada` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -222,8 +274,7 @@ CREATE TABLE `Transporte` (
 
 CREATE TABLE `Viaje` (
   `id` int(11) NOT NULL,
-  `Recorrido_id` double NOT NULL,
-  `Tiqueteria_puestos` varchar(50) NOT NULL,
+  `Recorrido_id` smallint(6) NOT NULL,
   `Reserva_id` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -239,13 +290,6 @@ CREATE TABLE `Vuelo` (
   `fechaSalida` datetime NOT NULL,
   `fechaLlegada` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `Vuelo`
---
-
-INSERT INTO `Vuelo` (`referencia`, `empresa`, `fechaSalida`, `fechaLlegada`) VALUES
-('A34Y', 'AVIANCA', '2019-11-14 00:00:00', '2019-11-22 00:00:00');
 
 --
 -- Índices para tablas volcadas
@@ -285,10 +329,16 @@ ALTER TABLE `Conductor`
   ADD PRIMARY KEY (`Persona_cedula`);
 
 --
+-- Indices de la tabla `Cuenta`
+--
+ALTER TABLE `Cuenta`
+  ADD PRIMARY KEY (`Cliente_Persona_cedula`,`usuario`);
+
+--
 -- Indices de la tabla `Grupo`
 --
 ALTER TABLE `Grupo`
-  ADD PRIMARY KEY (`Reserva_id`,`Cliente_Persona_cedula`),
+  ADD PRIMARY KEY (`Reserva_id`,`Persona_cedula`),
   ADD KEY `Grupo_Persona_FK` (`Persona_cedula`);
 
 --
@@ -307,8 +357,8 @@ ALTER TABLE `Hotel`
 -- Indices de la tabla `Paquete`
 --
 ALTER TABLE `Paquete`
-  ADD PRIMARY KEY (`Recorrido_id`,`SitioTuristico_nombre`,`SitioTuristico_direccion`),
-  ADD KEY `Paquete_SitioTuristico_FK` (`SitioTuristico_nombre`,`SitioTuristico_direccion`);
+  ADD PRIMARY KEY (`Recorrido_id`,`SitioTuristico_nombre`,`SitioTuristico_codCiudad`),
+  ADD KEY `Paquete_SitioTuristico_FK` (`SitioTuristico_nombre`,`SitioTuristico_codCiudad`);
 
 --
 -- Indices de la tabla `Persona`
@@ -334,7 +384,7 @@ ALTER TABLE `Reserva`
 -- Indices de la tabla `SitioTuristico`
 --
 ALTER TABLE `SitioTuristico`
-  ADD PRIMARY KEY (`nombre`,`direccion`),
+  ADD PRIMARY KEY (`nombre`,`Ciudad_codCiudad`),
   ADD KEY `SitioTuristico_Ciudad_FK` (`Ciudad_codCiudad`);
 
 --
@@ -348,8 +398,8 @@ ALTER TABLE `Tiqueteria`
 -- Indices de la tabla `Transporte`
 --
 ALTER TABLE `Transporte`
-  ADD KEY `Transporte_Bus_FK` (`Bus_placa`),
-  ADD KEY `Transporte_Viaje_FK` (`Viaje_id`);
+  ADD PRIMARY KEY (`Viaje_id`,`Bus_placa`),
+  ADD KEY `Transporte_Bus_FK` (`Bus_placa`);
 
 --
 -- Indices de la tabla `Viaje`
@@ -386,13 +436,19 @@ ALTER TABLE `Bus`
 -- Filtros para la tabla `Cliente`
 --
 ALTER TABLE `Cliente`
-  ADD CONSTRAINT `Cliente_Persona_FK` FOREIGN KEY (`Persona_cedula`) REFERENCES `Persona` (`cedula`) ON DELETE CASCADE;
+  ADD CONSTRAINT `Cliente_Persona_FK` FOREIGN KEY (`Persona_cedula`) REFERENCES `Persona` (`cedula`);
 
 --
 -- Filtros para la tabla `Conductor`
 --
 ALTER TABLE `Conductor`
-  ADD CONSTRAINT `Conductor_Persona_FK` FOREIGN KEY (`Persona_cedula`) REFERENCES `Persona` (`cedula`) ON DELETE CASCADE;
+  ADD CONSTRAINT `Conductor_Persona_FK` FOREIGN KEY (`Persona_cedula`) REFERENCES `Persona` (`cedula`);
+
+--
+-- Filtros para la tabla `Cuenta`
+--
+ALTER TABLE `Cuenta`
+  ADD CONSTRAINT `Cuenta_Cliente_FK` FOREIGN KEY (`Cliente_Persona_cedula`) REFERENCES `Cliente` (`Persona_cedula`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `Grupo`
@@ -412,7 +468,7 @@ ALTER TABLE `Guia`
 --
 ALTER TABLE `Paquete`
   ADD CONSTRAINT `Paquete_Recorrido_FK` FOREIGN KEY (`Recorrido_id`) REFERENCES `Recorrido` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `Paquete_SitioTuristico_FK` FOREIGN KEY (`SitioTuristico_nombre`,`SitioTuristico_direccion`) REFERENCES `SitioTuristico` (`nombre`, `direccion`) ON DELETE CASCADE;
+  ADD CONSTRAINT `Paquete_SitioTuristico_FK` FOREIGN KEY (`SitioTuristico_nombre`,`SitioTuristico_codCiudad`) REFERENCES `SitioTuristico` (`nombre`, `Ciudad_codCiudad`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `Reserva`

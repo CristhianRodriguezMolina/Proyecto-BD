@@ -61,9 +61,8 @@ def eliminar_persona(cedula):
 	mysql.connection.commit()
 	return redirect(url_for("index"))
 
-@app.route('/editar_persona<cedula>')
+@app.route('/editar_persona<cedula>', methods = ["POST","GET"])
 def editar_persona(cedula):
-
 	if request.method == "POST":
 		nombre = request.form["nombre"]
 		correo = request.form["correo"]
@@ -81,6 +80,18 @@ def editar_persona(cedula):
 		data = cur.fetchall()
 
 		return render_template("editar_persona.html", persona = data[0])
+
+
+@app.route('/reportes<reporte>')
+def generar_reportes(reporte):
+
+	if reporte == "reservas":
+		cur = mysql.connection.cursor()
+		cur.execute('SELECT * from Reserva')
+		data = cur.fetchall() 
+		return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data)
+	else:	
+		return render_template("reportes.html")
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
