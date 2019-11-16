@@ -37,7 +37,7 @@ def crear_persona():
 		cur = mysql.connection.cursor()
 		cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',(cedula, nombre, correo, telefono))
 		mysql.connection.commit()	
-		return redirect(url_for("index", msg = cedula))
+		return redirect(url_for("listar_personas", msg = cedula))
 
 	else:
 
@@ -52,6 +52,15 @@ def listar_personas():
 	data = cur.fetchall()
 
 	return render_template("personas.html", personas = data)
+
+@app.route('/editar_persona<cedula>')
+def editar_persona(cedula):
+	cur = mysql.connection.cursor()
+	sql = f'SELECT * FROM Persona WHERE cedula = {cedula}'
+	cur.execute(sql)
+	data = cur.fetchall()
+
+	return render_template("editar_persona.html", persona = data[0])
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)

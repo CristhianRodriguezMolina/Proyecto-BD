@@ -1,0 +1,59 @@
+{%extends "base.html"%}
+  {%block content%}
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Editar Persona</h3>
+        <!-- BASIC FORM ELELEMNTS -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Editar Persona</h4>
+              <form action = "#" class="form-horizontal style-form" method="post">
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Cedula:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="cedula" value="{{persona[0]}}">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Nombre completo:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name = "nombre" value="{{persona[1]}}">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Email:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="correo" value="{{persona[2]}}">
+                  </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Telefono:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="tel" value="{{persona[3]}}">
+                  </div>
+                </div>
+              <button type="submit" class="btn btn-primary btn-lg btn-block btn-success"> Guardar Cambios </button>
+              </form>
+            </div>
+          </div>
+          <!-- col-lg-12-->
+        </div>
+        <!-- /row -->
+      
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    
+  </section>
+  {%endblock%}
