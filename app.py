@@ -3,8 +3,8 @@ from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_USER'] = 'admin'
+app.config['MYSQL_PASSWORD'] = '1234'
 app.config['MYSQL_DB'] = 'lacatuli'
 mysql = MySQL(app)
 
@@ -35,8 +35,9 @@ def crear_persona():
 		telefono = request.form["tel"]
 
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO PERSONA (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
+		cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
 		(cedula, nombre, correo, telefono))
+
 		mysql.connection.commit()
 
 		print("Cedula:",cedula," nombre: ",nombre," correo: ",correo," telefono: ",telefono)
