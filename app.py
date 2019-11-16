@@ -35,9 +35,10 @@ def crear_persona():
 		telefono = request.form["tel"]
 
 		cur = mysql.connection.cursor()
-		cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',(cedula, nombre, correo, telefono))
+		cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
+			(cedula, nombre, correo, telefono))
 		mysql.connection.commit()	
-		return redirect(url_for("index", msg = cedula))
+		return redirect(url_for("listar_personas"))
 
 	else:
 
@@ -53,5 +54,13 @@ def listar_personas():
 
 	return render_template("personas.html", personas = data)
 
+@app.route('/eliminar_persona<cedula>')
+def eliminar_persona(cedula):
+	cur = mysql.connection.cursor()
+	cur.execute(f'DELETE FROM Persona WHERE Persona.cedula = {cedula}')
+	mysql.connection.commit()
+	return redirect(url_for("index"))
+
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
+
