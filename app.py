@@ -8,9 +8,17 @@ app.config['MYSQL_PASSWORD'] = '1234'
 app.config['MYSQL_DB'] = 'lacatuli'
 mysql = MySQL(app)
 
-@app.route('/')
+@app.route('/', methods=["POST", "GET"])
 def login():
-	return render_template("login.html")
+
+
+
+	if request.method == "POST":
+		usuario = request.form["usuario"]
+		contrasenia = request.form["contraseia"]
+		
+	else:
+		return render_template("login.html")
 
 @app.route('/index')
 def index():
@@ -85,6 +93,9 @@ def editar_persona(cedula):
 @app.route('/alertpopup')
 def alert_popup():
 	return render_template("alertpopup.html")
+
+def verificarLogin(usuario, contasenia):
+	pass
 
 if __name__ == '__main__':
     app.run(port = 3000, debug = True)
