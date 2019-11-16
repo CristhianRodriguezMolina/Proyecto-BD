@@ -67,16 +67,32 @@ def eliminar_persona(cedula):
 	cur = mysql.connection.cursor()
 	cur.execute(f'DELETE FROM Persona WHERE Persona.cedula = {cedula}')
 	mysql.connection.commit()
-	return redirect(url_for("index"))
+	return redirect(url_for("listar_personas"))
 
 @app.route('/editar_persona<cedula>')
 def editar_persona(cedula):
-	cur = mysql.connection.cursor()
-	sql = f'SELECT * FROM Persona WHERE cedula = {cedula}'
-	cur.execute(sql)
-	data = cur.fetchall()
 
-	return render_template("editar_persona.html", persona = data[0])
+	if request.method == "POST":
+		nombre = request.form["nombre"]
+		correo = request.form["correo"]
+		telefono = request.form["tel"]
+
+		cur = mysql.connection.cursor()
+		cur.execute('UPDATE Persona SET nombre = %s, correo = %s, telefono = %s WHERE cedula = %s',(nombre, correo, telefono, cedula))
+		mysql.connection.commit()	
+		return redirect(url_for("listar_personas"))
+	else:	
+
+		cur = mysql.connection.cursor()
+		sql = f'SELECT * FROM Persona WHERE cedula = {cedula}'
+		cur.execute(sql)
+		data = cur.fetchall()
+
+		return render_template("editar_persona.html", persona = data[0])
+
+@app.route('/alertpopup')
+def alert_popup():
+	return render_template("alertpopup.html")
 
 def verificarLogin(usuario, contasenia):
 	pass
