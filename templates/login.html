@@ -43,12 +43,12 @@
           <hr>
           <div class="registration">
             No tienes una cuenta aún?<br/>
-            <a class="" href="#">
+            <a data-toggle="modal" class="" href="login.html#modalRegistrarse">
               Crear una cuenta
             </a>
           </div>
         </div>
-        <!-- Modal -->
+        <!-- Modal 1 -->
         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -68,6 +68,39 @@
           </div>
         </div>
         <!-- modal -->
+        <!-- Modal registrarse -->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalRegistrarse" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Registrarse</h4>
+              </div>
+              <div class="modal-body">
+                <form action="/index" method="POST">
+                  <p>Datos personales</p>
+                  <input type="text" name="cedula" placeholder="Numero de identificación" autocomplete="off" class="form-control placeholder-no-fix">
+                  <br/>
+                  <input type="text" name="nombre" placeholder="Nombre completo" autocomplete="off" class="form-control placeholder-no-fix">
+                  <br/>
+                  <input type="text" name="correo" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+                  <br/>
+                  <input type="text" name="telefono" placeholder="Telefono" autocomplete="off" class="form-control placeholder-no-fix">
+                  <br/>
+                  <p>Datos de la cuenta</p>
+                  <input type="text" name="usuario" placeholder="Usuario" autocomplete="off" class="form-control placeholder-no-fix">
+                  <br/>
+                  <input type="password" name="contrasenia" placeholder="Contraseña" autocomplete="off" class="form-control placeholder-no-fix">
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                <button class="btn btn-theme" type="button">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal registrarse -->
       </form>
     </div>
   </div>

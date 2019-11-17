@@ -10,13 +10,15 @@ mysql = MySQL(app)
 
 @app.route('/', methods=["POST", "GET"])
 def login():
-
-
-
 	if request.method == "POST":
 		usuario = request.form["usuario"]
 		contrasenia = request.form["contraseia"]
 		
+		cur = mysql.connection.cursor()
+		cur.execute(f'SELECT * FROM Persona WHERE usuario = {usuario}')
+		mysql.connection.commit()
+
+		data = cur.fetchall()
 	else:
 		return render_template("login.html")
 
