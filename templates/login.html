@@ -25,9 +25,32 @@
 
 <body>
   
+
   <div id="login-page">
     <div class="container">
-      <form class="form-login" action="/index" method="POST">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+          
+          <div class="alert alert-danger" role="alert">
+              <strong>{{message}}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% if success %}
+          <div class="alert alert-success" role="alert">
+              <strong>{{success}}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      {% endif %}
+      <form class="form-login" method="POST">
         <h2 class="form-login-heading">sign in now</h2>
         <div class="login-wrap">
           <input type="text" class="form-control" name="usuario" placeholder="User ID" autofocus>
@@ -36,9 +59,9 @@
           <label class="checkbox">
             <input type="checkbox" value="remember-me"> Recordarme
             <span class="pull-right">
-            <a data-toggle="modal" href="login.html#myModal"> Olvido la contraseña?</a>
+              <a data-toggle="modal" href="login.html#myModal"> Olvido la contraseña?</a>
             </span>
-            </label>
+          </label>
           <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
           <hr>
           <div class="registration">
@@ -48,6 +71,7 @@
             </a>
           </div>
         </div>
+      </form>
         <!-- Modal 1 -->
         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
           <div class="modal-dialog">
@@ -72,12 +96,13 @@
         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalRegistrarse" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
+              <form action="/registrarse" method="POST">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Registrarse</h4>
               </div>
               <div class="modal-body">
-                <form action="/index" method="POST">
+                
                   <p>Datos personales</p>
                   <input type="text" name="cedula" placeholder="Numero de identificación" autocomplete="off" class="form-control placeholder-no-fix">
                   <br/>
@@ -91,17 +116,16 @@
                   <input type="text" name="usuario" placeholder="Usuario" autocomplete="off" class="form-control placeholder-no-fix">
                   <br/>
                   <input type="password" name="contrasenia" placeholder="Contraseña" autocomplete="off" class="form-control placeholder-no-fix">
-                </form>
               </div>
               <div class="modal-footer">
                 <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
-                <button class="btn btn-theme" type="button">Submit</button>
+                <button class="btn btn-theme" type="submit">Submit</button>
               </div>
+            </form>
             </div>
           </div>
         </div>
         <!-- Modal registrarse -->
-      </form>
     </div>
   </div>
   
@@ -131,26 +155,6 @@
    <!--script for this page-->
    <script src="{{url_for('static',filename='lib/sparkline-chart.js')}}"></script>
    <script src="{{url_for('static',filename='lib/zabuto_calendar.js')}}"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      var unique_id = $.gritter.add({
-        // (string | mandatory) the heading of the notification
-        title: 'Welcome to Dashio!',
-        // (string | mandatory) the text inside the notification
-        text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',
-        // (string | optional) the image to display on the left
-        image: 'img/ui-sam.jpg',
-        // (bool | optional) if you want it to fade out on its own or just sit there
-        sticky: false,
-        // (int | optional) the time you want it to be alive for before fading out
-        time: 8000,
-        // (string | optional) the class name you want to apply to that specific message
-        class_name: 'my-sticky-class'
-      });
-
-      return false;
-    });
-  </script>
   <script type="application/javascript">
     $(document).ready(function() {
       $("#date-popover").popover({
