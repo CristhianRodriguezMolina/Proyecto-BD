@@ -158,11 +158,14 @@ def listar_personas():
 	else:
 		return redirect(url_for("login"))
 
-@app.route('/eliminar_persona<cedula>')
-def eliminar_persona(cedula):
+@app.route('/cambiar_estado_persona<cedula>$<estado>')
+def cambiar_estado_persona(cedula, estado):
 	if "persona" in session:
 		cur = mysql.connection.cursor()
-		cur.execute(f'DELETE FROM Persona WHERE Persona.cedula = {cedula}')
+		if estado == "1":
+			cur.execute(f'UPDATE Persona SET activo = 0 WHERE Persona.cedula = {cedula}')
+		else :
+			cur.execute(f'UPDATE Persona SET activo = 1 WHERE Persona.cedula = {cedula}')
 		mysql.connection.commit()
 		return redirect(url_for("listar_personas"))
 	else:
@@ -197,9 +200,9 @@ def generar_reportes(reporte):
 			cur = mysql.connection.cursor()
 			cur.execute('SELECT * from Reserva')
 			data = cur.fetchall() 
-			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data)
+			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
 		else:	
-			return render_template("reportes.html")
+			return render_template("reportes.html", usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
 
