@@ -1,186 +1,184 @@
 -- Generado por Oracle SQL Developer Data Modeler 4.1.3.901
---   en:        2019-11-16 15:47:51 COT
---   sitio:      Oracle Database 11g
---   tipo:      Oracle Database 11g
+--   en:        2019-11-16 21:21:46 COT
+--   sitio:      Oracle Database 12c
+--   tipo:      Oracle Database 12c
 
 
 
 
 CREATE TABLE Acomodacion
   (
-    habitacion   VARCHAR2 (40 CHAR) NOT NULL ,
-    Hotel_nit    VARCHAR2 (20 CHAR) NOT NULL ,
-    fechaLlegada DATE NOT NULL ,
-    fechaSalida  DATE NOT NULL ,
-    Viaje_id     NUMBER (7) NOT NULL
+    habitacion   VARCHAR (40) NOT NULL ,
+    Hotel_nit    VARCHAR (20) NOT NULL ,
+    fechaLlegada DATETIME NOT NULL ,
+    fechaSalida  DATETIME NOT NULL ,
+    Viaje_id     INT  NOT NULL
   ) ;
 ALTER TABLE Acomodacion ADD CONSTRAINT Acomodacion_PK PRIMARY KEY ( habitacion, Hotel_nit, fechaLlegada ) ;
 
 
 CREATE TABLE Bus
   (
-    placa                    VARCHAR2 (8 CHAR) NOT NULL ,
-    numAsientos              NUMBER (2) NOT NULL ,
-    soat                     VARCHAR2 (15 CHAR) NOT NULL ,
-    empresa                  VARCHAR2 (30 CHAR) NOT NULL ,
-    Conductor_Persona_cedula CHAR (10 CHAR) NOT NULL
+    placa                    VARCHAR (8) NOT NULL ,
+    numAsientos              TINYINT  NOT NULL ,
+    soat                     VARCHAR (15) NOT NULL ,
+    empresa                  VARCHAR (30) NOT NULL ,
+    Conductor_Persona_cedula CHAR (10) NOT NULL
   ) ;
 ALTER TABLE Bus ADD CONSTRAINT Bus_PK PRIMARY KEY ( placa ) ;
 
 
 CREATE TABLE Ciudad
   (
-    codPostal VARCHAR2 (15 CHAR) NOT NULL ,
-    codCiudad VARCHAR2 (3 CHAR) NOT NULL ,
-    nombre    VARCHAR2 (40)
+    codPostal VARCHAR (15) NOT NULL ,
+    codCiudad VARCHAR (3) NOT NULL ,
+    nombre    VARCHAR (40)
   ) ;
 ALTER TABLE Ciudad ADD CONSTRAINT Ciudad_PK PRIMARY KEY ( codCiudad ) ;
 
 
 CREATE TABLE Cliente
   (
-    activo         CHAR (1) NOT NULL ,
-    Persona_cedula CHAR (10 CHAR) NOT NULL
+    activo         DOUBLE NOT NULL ,
+    Persona_cedula CHAR (10) NOT NULL
   ) ;
 ALTER TABLE Cliente ADD CONSTRAINT Cliente_PK PRIMARY KEY ( Persona_cedula ) ;
 
 
 CREATE TABLE Conductor
   (
-    numLicencia    VARCHAR2 (15 CHAR) NOT NULL ,
-    Persona_cedula CHAR (10 CHAR) NOT NULL
+    numLicencia    VARCHAR (15) NOT NULL ,
+    Persona_cedula CHAR (10) NOT NULL
   ) ;
 ALTER TABLE Conductor ADD CONSTRAINT Conductor_PK PRIMARY KEY ( Persona_cedula ) ;
 
 
 CREATE TABLE Cuenta
   (
-    usuario                VARCHAR2 (20) NOT NULL ,
-    contraseña             VARCHAR2 (30) ,
-    Cliente_Persona_cedula CHAR (10 CHAR) NOT NULL
+    usuario                VARCHAR (20) NOT NULL ,
+    contrasenia            VARCHAR (30) ,
+    Cliente_Persona_cedula CHAR (10) NOT NULL
   ) ;
 ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_PK PRIMARY KEY ( Cliente_Persona_cedula, usuario ) ;
 
 
 CREATE TABLE Grupo
   (
-    Reserva_id     NUMBER (4) NOT NULL ,
-    Persona_cedula CHAR (10 CHAR) NOT NULL
+    Reserva_id     SMALLINT  NOT NULL ,
+    Persona_cedula CHAR (10) NOT NULL
   ) ;
 ALTER TABLE Grupo ADD CONSTRAINT Grupo_PK PRIMARY KEY ( Reserva_id, Persona_cedula ) ;
 
 
 CREATE TABLE Guia
   (
-    id             NUMBER (2) NOT NULL ,
-    Persona_cedula CHAR (10 CHAR) NOT NULL
+    id             TINYINT  NOT NULL ,
+    Persona_cedula CHAR (10) NOT NULL
   ) ;
 ALTER TABLE Guia ADD CONSTRAINT Guia_PK PRIMARY KEY ( Persona_cedula ) ;
 
 
 CREATE TABLE Hotel
   (
-    nit       VARCHAR2 (20 CHAR) NOT NULL ,
-    direccion VARCHAR2 (50 CHAR) NOT NULL ,
-    empresa   VARCHAR2 (50 CHAR) NOT NULL ,
-    nombre    VARCHAR2 (50 CHAR) NOT NULL ,
-    telefono  VARCHAR2 (15 CHAR) NOT NULL
+    nit       VARCHAR (20) NOT NULL ,
+    direccion VARCHAR (50) NOT NULL ,
+    empresa   VARCHAR (50) NOT NULL ,
+    nombre    VARCHAR (50) NOT NULL ,
+    telefono  VARCHAR (15) NOT NULL
   ) ;
 ALTER TABLE Hotel ADD CONSTRAINT Hotel_PK PRIMARY KEY ( nit ) ;
 
 
 CREATE TABLE Paquete
   (
-    Recorrido_id             NUMBER (4) NOT NULL ,
-    SitioTuristico_nombre    VARCHAR2 (50 CHAR) NOT NULL ,
-    SitioTuristico_codCiudad VARCHAR2 (30 CHAR) NOT NULL
+    Recorrido_id             SMALLINT  NOT NULL ,
+    SitioTuristico_nombre    VARCHAR (50) NOT NULL ,
+    SitioTuristico_codCiudad VARCHAR (30) NOT NULL
   ) ;
 ALTER TABLE Paquete ADD CONSTRAINT Paquete_PK PRIMARY KEY ( Recorrido_id, SitioTuristico_nombre, SitioTuristico_codCiudad ) ;
 
 
 CREATE TABLE Persona
   (
-    cedula   CHAR (10 CHAR) NOT NULL ,
-    nombre   VARCHAR2 (40 CHAR) NOT NULL ,
-    correo   VARCHAR2 (70 CHAR) NOT NULL ,
-    telefono VARCHAR2 (15 CHAR) NOT NULL ,
-    activo   CHAR (1)
+    cedula   CHAR (10) NOT NULL ,
+    nombre   VARCHAR (40) NOT NULL ,
+    correo   VARCHAR (70) NOT NULL ,
+    telefono VARCHAR (15) NOT NULL ,
+    activo   DOUBLE
   ) ;
 ALTER TABLE Persona ADD CONSTRAINT Persona_PK PRIMARY KEY ( cedula ) ;
 
 
 CREATE TABLE Recorrido
   (
-    id          NUMBER (4) NOT NULL ,
-    descripcion VARCHAR2 (50 CHAR) NOT NULL
+    id          SMALLINT  NOT NULL ,
+    descripcion VARCHAR (50) NOT NULL
   ) ;
 ALTER TABLE Recorrido ADD CONSTRAINT Recorrido_PK PRIMARY KEY ( id ) ;
 
 
 CREATE TABLE Reserva
   (
-    id                  NUMBER (4) NOT NULL ,
-    fechaSalida         DATE NOT NULL ,
-    costo               NUMBER (9,2) NOT NULL ,
-    reservante          CHAR (10 CHAR) NOT NULL ,
-    Guia_Persona_cedula CHAR (10 CHAR) NOT NULL ,
-    fechaLlegada        DATE NOT NULL
+    id                  SMALLINT  NOT NULL ,
+    fechaSalida         DATETIME NOT NULL ,
+    costo               DECIMAL (9,2) NOT NULL ,
+    reservante          CHAR (10) NOT NULL ,
+    Guia_Persona_cedula CHAR (10) NOT NULL ,
+    fechaLlegada        DATETIME NOT NULL
   ) ;
 ALTER TABLE Reserva ADD CONSTRAINT Reserva_PK PRIMARY KEY ( id ) ;
 
 
 CREATE TABLE SitioTuristico
   (
-    nombre           VARCHAR2 (50 CHAR) NOT NULL ,
-    direccion        VARCHAR2 (50 CHAR) NOT NULL ,
-    Ciudad_codCiudad VARCHAR2 (3 CHAR) NOT NULL
+    nombre           VARCHAR (50) NOT NULL ,
+    direccion        VARCHAR (50) NOT NULL ,
+    Ciudad_codCiudad VARCHAR (3) NOT NULL
   ) ;
 ALTER TABLE SitioTuristico ADD CONSTRAINT SitioTuristico_PK PRIMARY KEY ( nombre, Ciudad_codCiudad ) ;
 
 
 CREATE TABLE Tiqueteria
   (
-    Vuelo_referencia VARCHAR2 (30 CHAR) NOT NULL ,
-    asiento          VARCHAR2 (50 CHAR) NOT NULL ,
-    Viaje_id         NUMBER (7) NOT NULL ,
-    fechaSalida      DATE NOT NULL ,
-    fechaLlegada     DATE NOT NULL
+    Vuelo_referencia VARCHAR (30) NOT NULL ,
+    asiento          VARCHAR (50) NOT NULL ,
+    Viaje_id         INT  NOT NULL ,
+    fechaSalida      DATETIME NOT NULL ,
+    fechaLlegada     DATETIME NOT NULL
   ) ;
 ALTER TABLE Tiqueteria ADD CONSTRAINT Tiquetes_PK PRIMARY KEY ( Vuelo_referencia, asiento, fechaSalida ) ;
 
 
 CREATE TABLE Transporte
   (
-    Bus_placa VARCHAR2 (8 CHAR) NOT NULL ,
-    Viaje_id  NUMBER (7) NOT NULL
+    Bus_placa VARCHAR (8) NOT NULL ,
+    Viaje_id  INT  NOT NULL
   ) ;
 ALTER TABLE Transporte ADD CONSTRAINT Transporte_PK PRIMARY KEY ( Viaje_id, Bus_placa ) ;
 
 
 CREATE TABLE Viaje
   (
-    id           NUMBER (7) NOT NULL ,
-    Recorrido_id NUMBER (4) NOT NULL ,
-    Reserva_id   NUMBER (4) NOT NULL
+    id           INT  NOT NULL ,
+    Recorrido_id SMALLINT  NOT NULL ,
+    Reserva_id   SMALLINT  NOT NULL
   ) ;
 ALTER TABLE Viaje ADD CONSTRAINT Viaje_PK PRIMARY KEY ( id ) ;
 
 
 CREATE TABLE Vuelo
   (
-    referencia   VARCHAR2 (30 CHAR) NOT NULL ,
-    empresa      VARCHAR2 (40 CHAR) NOT NULL ,
-    fechaSalida  DATE NOT NULL ,
-    fechaLlegada DATE NOT NULL
+    referencia   VARCHAR (30) NOT NULL ,
+    empresa      VARCHAR (40) NOT NULL ,
+    fechaSalida  DATETIME NOT NULL ,
+    fechaLlegada DATETIME NOT NULL
   ) ;
 ALTER TABLE Vuelo ADD CONSTRAINT Vuelo_PK PRIMARY KEY ( referencia ) ;
 
 
-ALTER TABLE Acomodacion ADD CONSTRAINT Acomodacion_Hotel_FK FOREIGN KEY ( Hotel_nit ) REFERENCES Hotel ( nit ) ON
-DELETE CASCADE ;
+ALTER TABLE Acomodacion ADD CONSTRAINT Acomodacion_Hotel_FK FOREIGN KEY ( Hotel_nit ) REFERENCES Hotel ( nit ) ;
 
-ALTER TABLE Acomodacion ADD CONSTRAINT Acomodacion_Viaje_FK FOREIGN KEY ( Viaje_id ) REFERENCES Viaje ( id ) ON
-DELETE CASCADE ;
+ALTER TABLE Acomodacion ADD CONSTRAINT Acomodacion_Viaje_FK FOREIGN KEY ( Viaje_id ) REFERENCES Viaje ( id ) ;
 
 ALTER TABLE Bus ADD CONSTRAINT Bus_Conductor_FK FOREIGN KEY ( Conductor_Persona_cedula ) REFERENCES Conductor ( Persona_cedula ) ;
 
@@ -188,28 +186,23 @@ ALTER TABLE Cliente ADD CONSTRAINT Cliente_Persona_FK FOREIGN KEY ( Persona_cedu
 
 ALTER TABLE Conductor ADD CONSTRAINT Conductor_Persona_FK FOREIGN KEY ( Persona_cedula ) REFERENCES Persona ( cedula ) ;
 
-ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_Cliente_FK FOREIGN KEY ( Cliente_Persona_cedula ) REFERENCES Cliente ( Persona_cedula ) ON
-DELETE CASCADE ;
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_Cliente_FK FOREIGN KEY ( Cliente_Persona_cedula ) REFERENCES Cliente ( Persona_cedula ) ;
 
 ALTER TABLE Grupo ADD CONSTRAINT Grupo_Persona_FK FOREIGN KEY ( Persona_cedula ) REFERENCES Persona ( cedula ) ;
 
 ALTER TABLE Grupo ADD CONSTRAINT Grupo_Reserva_FK FOREIGN KEY ( Reserva_id ) REFERENCES Reserva ( id ) ;
 
-ALTER TABLE Guia ADD CONSTRAINT Guia_Persona_FK FOREIGN KEY ( Persona_cedula ) REFERENCES Persona ( cedula ) ON
-DELETE CASCADE ;
+ALTER TABLE Guia ADD CONSTRAINT Guia_Persona_FK FOREIGN KEY ( Persona_cedula ) REFERENCES Persona ( cedula ) ;
 
-ALTER TABLE Paquete ADD CONSTRAINT Paquete_Recorrido_FK FOREIGN KEY ( Recorrido_id ) REFERENCES Recorrido ( id ) ON
-DELETE CASCADE ;
+ALTER TABLE Paquete ADD CONSTRAINT Paquete_Recorrido_FK FOREIGN KEY ( Recorrido_id ) REFERENCES Recorrido ( id ) ;
 
-ALTER TABLE Paquete ADD CONSTRAINT Paquete_SitioTuristico_FK FOREIGN KEY ( SitioTuristico_nombre, SitioTuristico_codCiudad ) REFERENCES SitioTuristico ( nombre, Ciudad_codCiudad ) ON
-DELETE CASCADE ;
+ALTER TABLE Paquete ADD CONSTRAINT Paquete_SitioTuristico_FK FOREIGN KEY ( SitioTuristico_nombre, SitioTuristico_codCiudad ) REFERENCES SitioTuristico ( nombre, Ciudad_codCiudad ) ;
 
 ALTER TABLE Reserva ADD CONSTRAINT Reserva_Cliente_FK FOREIGN KEY ( reservante ) REFERENCES Cliente ( Persona_cedula ) ;
 
 ALTER TABLE Reserva ADD CONSTRAINT Reserva_Guia_FK FOREIGN KEY ( Guia_Persona_cedula ) REFERENCES Guia ( Persona_cedula ) ;
 
-ALTER TABLE SitioTuristico ADD CONSTRAINT SitioTuristico_Ciudad_FK FOREIGN KEY ( Ciudad_codCiudad ) REFERENCES Ciudad ( codCiudad ) ON
-DELETE CASCADE ;
+ALTER TABLE SitioTuristico ADD CONSTRAINT SitioTuristico_Ciudad_FK FOREIGN KEY ( Ciudad_codCiudad ) REFERENCES Ciudad ( codCiudad ) ;
 
 ALTER TABLE Tiqueteria ADD CONSTRAINT Tiquetes_Viaje_FK FOREIGN KEY ( Viaje_id ) REFERENCES Viaje ( id ) ;
 
@@ -258,6 +251,7 @@ ALTER TABLE Viaje ADD CONSTRAINT Viaje_Reserva_FK FOREIGN KEY ( Reserva_id ) REF
 -- DROP DATABASE                            0
 -- 
 -- REDACTION POLICY                         0
+-- TSDP POLICY                              0
 -- 
 -- ORDS DROP SCHEMA                         0
 -- ORDS ENABLE SCHEMA                       0

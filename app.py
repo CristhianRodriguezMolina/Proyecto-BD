@@ -193,14 +193,17 @@ def editar_persona(cedula):
 	else:
 		return redirect(url_for("login"))
 
-@app.route('/reportes<reporte>')
-def generar_reportes(reporte):
+@app.route('/reportes_lista$<reporte>$<variable>')
+def generar_reportes(reporte,variable):
 	if "persona" in session:
 		if reporte == "reservas":
+
 			cur = mysql.connection.cursor()
-			cur.execute('SELECT * from Reserva')
+			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
+			print("PERRROOOO",sql)
+			cur.execute(sql)
 			data = cur.fetchall() 
-			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"])
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
