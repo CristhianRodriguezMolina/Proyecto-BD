@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, make_response
 from flask_mysqldb import MySQL
-import util
+import pdfkit
 
 app = Flask(__name__)
 
@@ -13,7 +13,6 @@ mysql = MySQL(app)
 
 #MySql session
 app.secret_key = 'my_secret_key'
-
 
 @app.errorhandler(404)
 def error404(e):
@@ -200,7 +199,13 @@ def generar_reportes(reporte):
 			cur = mysql.connection.cursor()
 			cur.execute('SELECT * from Reserva')
 			data = cur.fetchall() 
-			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			rendered = render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			pdf = pdfkit.from_string(rendered, False)
+
+			response = make_response(pdf)
+			response.headers['Content-Type'] = 'application/pdf'
+			response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+			return response
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
