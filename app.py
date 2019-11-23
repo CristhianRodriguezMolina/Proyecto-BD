@@ -199,13 +199,18 @@ def generar_reportes(reporte):
 			cur = mysql.connection.cursor()
 			cur.execute('SELECT * from Reserva')
 			data = cur.fetchall() 
-			rendered = render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
-			pdf = pdfkit.from_string(rendered, False)
+			rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			"""css = ["static/lib/bootstrap/css/bootstrap.min.css",
+			"static/css/style.css",
+			"static/css/style-responsive.css",
+			"static/css/table-responsive.css",]
+			pdf = pdfkit.from_string(rendered, False, css=css)
 
 			response = make_response(pdf)
 			response.headers['Content-Type'] = 'application/pdf'
 			response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
-			return response
+			return response"""
+			return rendered
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
