@@ -21,6 +21,16 @@
   <link href="{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
   <link href="{{url_for('static',filename='css/style-responsive.css')}}" rel="stylesheet">
   
+  <link href="{{url_for('static',filename='lib/font-awesome/css/font-awesome.css')}}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lib/bootstrap-fileupload/bootstrap-fileupload.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lib/bootstrap-datepicker/css/datepicker.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lib/bootstrap-daterangepicker/daterangepicker.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lib/bootstrap-timepicker/compiled/timepicker.css')}}" />
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lib/bootstrap-datetimepicker/datertimepicker.css')}}" />
+  <!-- Custom styles for this template -->
+  <link href="{{url_for('static',filename='css/style.css" rel="stylesheet')}}">
+  <link href="{{url_for('static',filename='css/style-responsive.css')}}" rel="stylesheet">
+
   
   <!-- =======================================================
     Template Name: LACATULI
@@ -246,7 +256,7 @@
           <p class="centered"><a href="profile.html"><img src="{{url_for('static',filename='img/ui-sam.jpg')}}" class="img-circle" width="80"></a></p>
           <h5 class="centered">{{ usuario[1] }}</h5>
           <li class="mt">
-            <a class="active" href="reportes_lista">
+            <a class="active" href="reportes_lista$_$_">
               <i class="fa fa-dashboard"></i>
               <span>Reportes</span>
               </a>
@@ -486,6 +496,16 @@
   <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-inputmask/bootstrap-inputmask.min.js')}}"></script>
   <script src="{{url_for('static',filename='lib/form-component.js')}}"></script>
+    <!--script for ADVANCED COMPONENTS FORMS-->
+  <script src="{{url_for('static',filename='lib/jquery-ui-1.9.2.custom.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-fileupload/bootstrap-fileupload.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-daterangepicker/date.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-daterangepicker/moment.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='lib/bootstrap-timepicker/js/bootstrap-timepicker.js')}}"></script>
+  <script src="{{url_for('static',filename='lib/advanced-form-components.js')}}"></script>
 
 </body>
 </html>

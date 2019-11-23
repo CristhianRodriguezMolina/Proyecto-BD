@@ -8,16 +8,34 @@
         <div class="row">
           <div class="col-md-12">
             <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i> Selecciones un reporte</h4>
+              <h4><i class="fa fa-angle-right"></i> Seleccione un reporte</h4>
               <hr>
               <table class="table">
                 <tbody>
+
+                  <!-- PRIMER REPORTE -->
                   <tr>
                     <td>Reservas realizadas en el mes de:</td>
                     <td>
-                      <a href="/reportesreservas" class="btn btn-round btn-info">Ver reporte</a>
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Sólo meses:</label>
+                        <div class="col-md-3 col-xs-11">
+                          <div data-date-minviewmode="months" data-date-viewmode="years" data-date-format="yyyy-mm" data-date="2014-01" class="input-append date dpMonths">
+                            <input type="text" readonly=""  size="16" class="form-control" id = "mes">
+                            <span class="input-group-btn add-on">
+                              <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
+                            </span>
+                          </div>
+                          <span class="help-block">Seleccione el mes del año que desea consultar.</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="button" onclick="verReporte();" class="btn btn-round btn-info" value = "Ver reporte">
                     <td>
                   </tr>
+
+
                 </tbody>
               </table>
             </div>
@@ -25,7 +43,15 @@
         </div>
      </section>
 </section>
-         
+
+<script type="text/javascript">
+
+function verReporte() {
+    let input = document.getElementById("mes");
+    window.location = "/reportes_lista$reservas$" + input.value;
+}
+
+</script>>         
 
 
 {%endblock%}

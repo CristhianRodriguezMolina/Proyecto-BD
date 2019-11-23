@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, session, make_response
 from flask_mysqldb import MySQL
-import pdfkit
+#import pdfkit
 
 app = Flask(__name__)
 
@@ -192,15 +192,19 @@ def editar_persona(cedula):
 	else:
 		return redirect(url_for("login"))
 
-@app.route('/reportes<reporte>')
-def generar_reportes(reporte):
+@app.route('/reportes_lista$<reporte>$<variable>')
+def generar_reportes(reporte,variable):
 	if "persona" in session:
 		if reporte == "reservas":
+
 			cur = mysql.connection.cursor()
-			cur.execute('SELECT * from Reserva')
+			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
+			print("PERRROOOO",sql)
+			cur.execute(sql)
 			data = cur.fetchall() 
-			rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
-			"""css = ["static/lib/bootstrap/css/bootstrap.min.css",
+			#PDF CRISTHIAN
+			"""rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			css = ["static/lib/bootstrap/css/bootstrap.min.css",
 			"static/css/style.css",
 			"static/css/style-responsive.css",
 			"static/css/table-responsive.css",]
@@ -209,8 +213,10 @@ def generar_reportes(reporte):
 			response = make_response(pdf)
 			response.headers['Content-Type'] = 'application/pdf'
 			response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
-			return response"""
-			return rendered
+			return response
+			return rendered"""
+
+			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"])
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
