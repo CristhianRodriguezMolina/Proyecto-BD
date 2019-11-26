@@ -2,6 +2,8 @@
 
 {%block content%}
 
+
+  {% if tipo == "reservas" %}
 	<section id="main-content">
       <section class="wrapper">
         <h3><i class="fa fa-angle-right"></i> Resultados </h3>
@@ -39,6 +41,53 @@
         </div>
      </section>
 </section>
+{% elif tipo == "sitios_turisticos"%}
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+              <hr>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Sitio Turistico</th>
+                    <th>Direccion</th>
+                    <th>Ciudad</th>
+                    <th>Número de visitar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for registro in reporte%}  
+                  <tr">
+                    <td>{{registro[0]}}</td>
+                    <td>{{registro[1]}}</td>
+                    <td>{{registro[2]}}</td>
+                    <td>{{registro[3]}}</td>
+                  </tr>
+                 {% endfor %} 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        
+     </section>
+</section>
+
+<script type="text/javascript">
+  function crearGraficaBarras() {
+    var ul = document.getElementById("datos");
+    var li1 = document.createElement("li");
+    var span1 = document.createElement("span");
+    li1.appendChild(span1);
+
+}
+</script>
+{% endif %}
          
 
 {%endblock%}

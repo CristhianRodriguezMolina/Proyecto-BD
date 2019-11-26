@@ -224,7 +224,26 @@ def generar_reportes(reporte,variable):
 			# response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
 			# return response
 
-			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"])
+			return render_template("descripcion_reporte.html", titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"], tipo = "reservas")
+		elif reporte == "sitios_turisticos":
+
+			cur = mysql.connection.cursor()
+			sql = "SELECT st.nombre AS sitio_turistico, st.direccion, c.nombre AS ciudad, count(per.cedula) AS turistas\n"
+			sql += 	"FROM Persona per, Grupo g, Reserva res, Viaje v, Recorrido rec, Paquete paq, SitioTuristico st, Ciudad c \n"
+			sql += 	"WHERE per.cedula = g.Persona_cedula\n"
+			sql += 	"AND g.Reserva_id = res.id\n"
+			sql += 	"AND res.id = v.Reserva_id\n"
+			sql += 	"AND v.Recorrido_id = rec.id\n"
+			sql += 	"AND rec.id = paq.Recorrido_id\n"
+			sql += 	"AND paq.SitioTuristico_nombre = st.nombre\n"
+			sql += 	"AND paq.SitioTuristico_codCiudad = st.Ciudad_codCiudad\n"
+			sql += 	"AND st.Ciudad_codCiudad = c.codCiudad\n"
+			sql += 	"GROUP BY st.nombre\n"
+			sql += 	"ORDER BY turistas DESC\n"
+			sql += 	"LIMIT 5"
+			cur.execute(sql);
+			data = cur.fetchall()
+			return render_template("descripcion_reporte.html", titulo = "Los 5 sitios turisticos mas visitados en todos los tiempos", reporte = data, usuario = session["persona"], tipo = "sitios_turisticos")
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:

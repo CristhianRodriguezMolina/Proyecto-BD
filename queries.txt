@@ -10,9 +10,9 @@ INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
 ('1209', 'Yelsid Mami', 'yelsidmami@gmail.com', '317-646-3858'),
 ('1210', 'Sergio Osorio Angel', 'sergiohacks@gmail.com', '312-647-8359');
 
-INSERT INTO `Cliente` (`activo`, `Persona_cedula`) VALUES
-('S', '1203'),
-('S', '1204');
+INSERT INTO `Cliente` (`Persona_cedula`) VALUES
+('1203'),
+('1204');
 
 INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
 ('647383', '1201'),
@@ -51,12 +51,12 @@ INSERT INTO `Ciudad` (`codPostal`, `codCiudad`, `nombre`) VALUES
 ('630013', '113', 'Pereira');
 
 INSERT INTO `SitioTuristico` (`nombre`, `direccion`, `Ciudad_codCiudad`) VALUES
-('Caño Cristales', 'sierra de la Macarena', '117'),
-('Cerro Azul', 'Iglesia Centro Azul Primavera', '119'),
-('Minas de Nemocón', 'Cl. 2 ##0-05', '114'),
-('Parque Nacional Natural El Tuparro', 'Vichada', '115'),
-('Punta Gallinas', 'Península de La Guajira', '116'),
-('Reserva Río Claro', 'parte alta del municipio de Sonsó', '118');
+('Caño Cristales', 'sierra de la Macarena', '101'),
+('Cerro Azul', 'Iglesia Centro Azul Primavera', '102'),
+('Minas de Nemocón', 'Cl. 2 ##0-05', '103'),
+('Parque Nacional Natural El Tuparro', 'Vichada', '104'),
+('Punta Gallinas', 'Península de La Guajira', '109'),
+('Reserva Río Claro', 'parte alta del municipio de Sonsó', '110');
 
 INSERT INTO `Hotel` (`nit`, `direccion`, `empresa`, `nombre`, `telefono`) VALUES
 ('33001', 'CR 5#7 N', 'HotelStart', 'MIssan Hotel', '7359300'),
@@ -71,13 +71,12 @@ INSERT INTO `Recorrido` (`id`, `descripcion`) VALUES
 (5604, 'Solo recreación');
 
 INSERT INTO `Paquete` (`Recorrido_id`, `SitioTuristico_nombre`, `SitioTuristico_codCiudad`) VALUES
-(5601, 'Caño Cristales', '117'),
-(5601, 'Punta Gallinas', '116'),
-(5602, 'Cerro Azul', '119'),
-(5602, 'Minas de Nemocón', '114'),
-(5602, 'Reserva Río Claro', '118'),
-(5603, 'Minas de Nemocón', '114'),
-(5604, 'Parque Nacional Natural El Tuparro', '115');
+(5601, 'Caño Cristales', '101'),
+(5601, 'Punta Gallinas', '109'),
+(5602, 'Cerro Azul', '102'),
+(5602, 'Minas de Nemocón', '103'),
+(5602, 'Reserva Río Claro', '110'),
+(5604, 'Parque Nacional Natural El Tuparro', '104');
 
 INSERT INTO `Vuelo` (`referencia`, `empresa`, `fechaSalida`, `fechaLlegada`) VALUES
 ('BO42773T', 'Avianca', '2019-10-31 23:00:00', '2019-11-01 08:50:00'),
