@@ -4,11 +4,14 @@
 
 	<section id="main-content">
       <section class="wrapper">
+        <form method="post" action="/reporte_reservas">
         <h3><i class="fa fa-angle-right"></i> Resultados </h3>
         <div class="row">
           <div class="col-md-12">
             <div class="content-panel">
               <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+              <hr>
+              <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
               <hr>
               <table class="table">
                 <thead>
@@ -37,8 +40,16 @@
             </div>
           </div>
         </div>
+      </form>
      </section>
 </section>
-         
+
+<script>
+
+function verReporte() {
+  window.location = "/reporte_reserva$" + fecha;
+}
+
+</script>>
 
 {%endblock%}

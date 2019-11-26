@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, session, make_response
 from flask_mysqldb import MySQL
+from pyreportjasper import JasperPy
+import os
 #import pdfkit
 
 app = Flask(__name__)
@@ -216,11 +218,40 @@ def generar_reportes(reporte,variable):
 			return response
 			return rendered"""
 
-			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"])
+			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"], fecha = variable)
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
+
+@app.route('/reporte_reservas', methods=['POST'])
+def generar_reporte_reservas():
+	if request.method == 'POST':
+		input_file = os.path.dirname(os.path.abspath(__file__)) + "/reports/reporte_reservas.jrxml"
+		output =  os.path.dirname(os.path.abspath(__file__)) + "/reports"
+		print(input_file)
+		print(output)
+		con = {
+			'driver': 'mysql',
+			'username': 'admin',
+			'password': '1234',
+			'host': 'localhost',
+			'database': 'lacatuli',
+			'port':'3306'
+		}
+		jasper = JasperPy()
+		jasper.process(
+			input_file,
+			output_file=output,
+			format_list=["pdf"],
+			db_connection=con
+		)
+	
+def compilar_reporte(report):
+    input_file = os.path.dirname(os.path.abspath(__file__)) + \
+                 '/reports/'+report
+    jasper = JasperPy()
+    jasper.compile(input_file)
 
 def verificarLogin(usuario, contasenia):
 	pass
