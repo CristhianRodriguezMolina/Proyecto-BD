@@ -157,6 +157,18 @@ def listar_personas():
 	else:
 		return redirect(url_for("login"))
 
+@app.route('/viajes')
+def listar_viajes():
+	if "persona" in session:
+		cur = mysql.connection.cursor()
+		cur.execute('SELECT * FROM Viaje')
+
+		data = cur.fetchall()
+
+		return render_template("viajes.html", personas = data, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))
+
 @app.route('/cambiar_estado_persona<cedula>$<estado>')
 def cambiar_estado_persona(cedula, estado):
 	if "persona" in session:
@@ -215,6 +227,25 @@ def generar_reportes(reporte,variable):
 			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"])
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))
+
+@app.route('/crear_viaje', methods = ["POST", "GET"])
+def crear_viaje():
+	if "persona" in session:
+		if request.method == "POST":
+			cedula = request.form["cedula"]
+			nombre = request.form["nombre"]
+			correo = request.form["correo"]
+			telefono = request.form["tel"]
+
+			cur = mysql.connection.cursor()
+			cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
+				(cedula, nombre, correo, telefono))
+			mysql.connection.commit()	
+			return redirect(url_for("listar_viajes"))
+		else:
+			return render_template("crear_viaje.html", usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
 
