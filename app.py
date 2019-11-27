@@ -244,6 +244,31 @@ def generar_reportes(reporte,variable):
 			cur.execute(sql);
 			data = cur.fetchall()
 			return render_template("descripcion_reporte.html", titulo = "Los 5 sitios turisticos mas visitados en todos los tiempos", reporte = data, usuario = session["persona"], tipo = "sitios_turisticos")
+		elif reporte == "reporte_vuelos_personas":
+			vuelos = variable.split(",")
+			cur = mysql.connection.cursor()
+			sql = 	"SELECT p.cedula, p.nombre, vul.referencia, vul.empresa\n"
+			sql += 	"FROM Vuelo vul, Tiqueteria t, Viaje vje, Reserva r, Grupo g, Persona p\n"
+			sql += 	"WHERE vul.referencia = t.Vuelo_referencia\n"
+			sql += 	"AND t.Viaje_id = vje.id\n"
+			sql += 	"AND vje.Reserva_id = r.id\n"
+			sql += 	"AND r.id = g.Reserva_id\n"
+			sql += 	"AND g.Persona_cedula = p.cedula\n"
+			sql += 	f"AND vul.empresa = '{vuelos[0]}'\n"
+			sql += 	"AND p.cedula NOT IN(\n"
+			sql += 		"SELECT p.cedula\n"
+			sql += 		"FROM Vuelo vul, Tiqueteria t, Viaje vje, Reserva r, Grupo g, Persona p\n"
+			sql += 		"WHERE vul.referencia = t.Vuelo_referencia\n"
+			sql += 		"AND t.Viaje_id = vje.id\n"
+			sql += 		"AND vje.Reserva_id = r.id\n"
+			sql += 		"AND r.id = g.Reserva_id\n"
+			sql += 		"AND g.Persona_cedula = p.cedula\n"
+			sql += 		f"AND vul.empresa = '{vuelos[1]}'\n"
+			sql += 	")"
+			cur.execute(sql);
+			data = cur.fetchall()
+			titulo = f"Personas que han viajado en vuelos de {vuelos[0]} pero no en vuelos de {vuelos[1]}"
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reporte_vuelos_personas")
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
@@ -267,6 +292,13 @@ def crear_viaje():
 			return render_template("crear_viaje.html", usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
+
+@app.route('/cargar_datos')
+def cargar_datos():
+	cur = mysql.connection.cursor()
+	cur.execute('SELECT empresa FROM Vuelo GROUP BY empresa')
+	data = cur.fetchall();
+	return render_template("reportes.html", usuario = session["persona"], datos = data)
 
 def verificarLogin(usuario, contasenia):
 	pass
