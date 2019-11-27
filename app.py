@@ -201,9 +201,9 @@ def generar_reportes(reporte,variable):
 
 			cur = mysql.connection.cursor()
 			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
-			print("PERRROOOO",sql)
 			cur.execute(sql)
 			data = cur.fetchall() 
+			session["datos_actuales"] = data
 			#PDF CRISTHIAN
 			"""rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
 			css = ["static/lib/bootstrap/css/bootstrap.min.css",
@@ -227,8 +227,8 @@ def generar_reportes(reporte,variable):
 @app.route('/reporte_reservas', methods=['POST'])
 def generar_reporte_reservas():
 	if request.method == 'POST':
-		input_file = os.path.dirname(os.path.abspath(__file__)) + "/reports/reporte_reservas.jrxml"
-		output =  os.path.dirname(os.path.abspath(__file__)) + "/reports"
+		input_file = os.path.dirname(os.path.abspath(__file__)) + "/examples/reporte_reservas.jrxml"
+		output =  os.path.dirname(os.path.abspath(__file__)) + "/output/examples"
 		print(input_file)
 		print(output)
 		con = {
@@ -246,12 +246,6 @@ def generar_reporte_reservas():
 			format_list=["pdf"],
 			db_connection=con
 		)
-	
-def compilar_reporte(report):
-    input_file = os.path.dirname(os.path.abspath(__file__)) + \
-                 '/reports/'+report
-    jasper = JasperPy()
-    jasper.compile(input_file)
 
 def verificarLogin(usuario, contasenia):
 	pass
