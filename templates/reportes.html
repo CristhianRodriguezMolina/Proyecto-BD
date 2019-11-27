@@ -51,23 +51,39 @@
                   <!-- TERCER REPORTE -->
                   <tr>
                     <td>Personas que han viajado en vuelos de 
-                      <select id = "cbx1" class="btn btn-default dropdown-toggle">
-                        {% for dato in datos %}
-                        <option value="{{dato}}">{{dato[0]}}</option>
+                      <select id = "cbxVuelos1" class="btn btn-default dropdown-toggle">
+                        {% for empresaVuelos in empresasVuelos %}
+                        <option value="{{empresaVuelos}}">{{empresaVuelos[0]}}</option>
                         {% endfor %}
                       </select>
                     </td> 
 
                     <td>    
                         pero no en vuelos de 
-                        <select id = "cbx2" class="btn btn-default dropdown-toggle">
-                          {% for dato in datos %}
-                          <option value="{{dato}}">{{dato[0]}}</option>
+                        <select id = "cbxVuelos2" class="btn btn-default dropdown-toggle">
+                          {% for empresaVuelos in empresasVuelos %}
+                          <option value="{{empresaVuelos}}">{{empresaVuelos[0]}}</option>
                           {% endfor %}
                         </select>
                     </td>
                     <td>
                       <input type="button" onclick="verReporte('reporte_vuelos_personas');" class="btn btn-round btn-info" value = "Ver reporte">
+                    <td>
+                  </tr>
+
+                  <!-- CUARTO REPORTE -->
+                  <tr>
+                    <td>Empresas de buses que tiene un promedio de sillas mayor al de la empresa</td>
+                    <td>
+                      <select id = "cbxBuses" class="btn btn-default dropdown-toggle">
+                        {% for empresaBuses in empresasBuses %}
+                        <option value="{{empresaBuses}}">{{empresaBuses[0]}}</option>
+                        {% endfor %}
+                      </select>
+                    </td>
+                    </td>
+                    <td>
+                      <input type="button" onclick="verReporte('prom_sillas_buses');" class="btn btn-round btn-info" value = "Ver reporte">
                     <td>
                   </tr>
 
@@ -93,11 +109,17 @@ function verReporte(tipo) {
     }
     else if(tipo == "reporte_vuelos_personas")
     {
-      var cbx1 = document.getElementById("cbx1").value;
-      var cbx2 = document.getElementById("cbx2").value;
-      cbx1 = cbx1.substring(2, cbx1.length - 3);
-      cbx2 = cbx2.substring(2, cbx2.length - 3);
-      window.location = "/reportes_lista$" + String(tipo) + "$" + cbx1 + "," + cbx2; 
+      var cbxVuelos1 = document.getElementById("cbxVuelos1").value;
+      var cbxVuelos2 = document.getElementById("cbxVuelos2").value;
+      cbxVuelos1 = cbxVuelos1.substring(2, cbxVuelos1.length - 3);
+      cbxVuelos2 = cbxVuelos2.substring(2, cbxVuelos2.length - 3);
+      window.location = "/reportes_lista$" + String(tipo) + "$" + cbxVuelos1 + "," + cbxVuelos2; 
+    }
+    else if(tipo == "prom_sillas_buses")
+    {
+      var cbxBuses = document.getElementById("cbxBuses").value;
+      cbxBuses = cbxBuses.substring(2, cbxBuses.length - 3);
+      window.location = "/reportes_lista$" + String(tipo) + "$" + cbxBuses; 
     }
 }
 

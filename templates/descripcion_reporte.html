@@ -78,40 +78,74 @@
      </section>
 
      {% elif tipo == "reporte_vuelos_personas"%}
-<section id="main-content">
-      <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Resultados</h3>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
-              <hr>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Cedula</th>
-                    <th>Nombre</th>
-                    <th>Referencia de vuelo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {% for registro in reporte%}  
-                  <tr">
-                    <td>{{registro[0]}}</td>
-                    <td>{{registro[1]}}</td>
-                    <td>{{registro[2]}}</td>
-                  </tr>
-                 {% endfor %} 
-                </tbody>
-              </table>
+    <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Cedula</th>
+                        <th>Nombre</th>
+                        <th>Referencia de vuelo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte%}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                        <td>{{registro[2]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        
-     </section>
-</section>
-</section>
+            
+         </section>
+    </section>
+    </section>
+
+   {% elif tipo == "prom_sillas_buses"%}
+    <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Empresa</th>
+                        <th>Promedio de asientos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte %}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            
+         </section>
+    </section>
+    </section>
 
 {% endif %}
 <script type="text/javascript">

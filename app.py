@@ -269,6 +269,18 @@ def generar_reportes(reporte,variable):
 			data = cur.fetchall()
 			titulo = f"Personas que han viajado en vuelos de {vuelos[0]} pero no en vuelos de {vuelos[1]}"
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reporte_vuelos_personas")
+		elif reporte == "prom_sillas_buses":
+			cur = mysql.connection.cursor()
+			sql = 	"SELECT empresa, AVG(numAsientos) AS prom_asientos FROM Bus\n"
+			sql +=	"GROUP BY empresa\n"
+			sql +=	"HAVING AVG(numAsientos) > (\n"
+			sql +=		"SELECT AVG(numAsientos) AS prom_asientos FROM Bus\n"
+			sql +=		f"WHERE empresa LIKE '{variable}'\n"
+			sql += 	")"
+			cur.execute(sql);
+			data = cur.fetchall()
+			titulo = f"Empresas de buses que tiene un promedio de sillas mayor al de la empresa {variable}"	
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "prom_sillas_buses")
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
@@ -297,8 +309,10 @@ def crear_viaje():
 def cargar_datos():
 	cur = mysql.connection.cursor()
 	cur.execute('SELECT empresa FROM Vuelo GROUP BY empresa')
-	data = cur.fetchall();
-	return render_template("reportes.html", usuario = session["persona"], datos = data)
+	data = cur.fetchall()
+	cur.execute('SELECT empresa FROM Bus GROUP BY empresa')
+	data2 = cur.fetchall()
+	return render_template("reportes.html", usuario = session["persona"], empresasVuelos = data, empresasBuses = data2)
 
 def verificarLogin(usuario, contasenia):
 	pass
