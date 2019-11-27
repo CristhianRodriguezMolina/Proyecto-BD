@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, session, make_response
 from flask_mysqldb import MySQL
 from pyreportjasper import JasperPy
-import os
+import os, reportePDF
 #import pdfkit
 
 app = Flask(__name__)
@@ -212,9 +212,11 @@ def generar_reportes(reporte,variable):
 		if reporte == "reservas":
 
 			cur = mysql.connection.cursor()
-			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
+			sql = "SELECT ID, FECHASALIDA, COSTO, RESERVANTE, GUIA_PERSONA_CEDULA, FECHALLEGADA from Reserva where fechaSalida like '%"+str(variable)+"%'"
 			cur.execute(sql)
 			data = cur.fetchall() 
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 1
 			#PDF CRISTHIAN
 			"""rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
 			css = ["static/lib/bootstrap/css/bootstrap.min.css",
@@ -246,8 +248,10 @@ def generar_reportes(reporte,variable):
 			sql += 	"GROUP BY st.nombre\n"
 			sql += 	"ORDER BY turistas DESC\n"
 			sql += 	"LIMIT 5"
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 2
 			return render_template("descripcion_reporte.html", titulo = "Los 5 sitios turisticos mas visitados en todos los tiempos", reporte = data, usuario = session["persona"], tipo = "sitios_turisticos")
 		elif reporte == "reporte_vuelos_personas":
 			vuelos = variable.split(",")
@@ -270,8 +274,10 @@ def generar_reportes(reporte,variable):
 			sql += 		"AND g.Persona_cedula = p.cedula\n"
 			sql += 		f"AND vul.empresa = '{vuelos[1]}'\n"
 			sql += 	")"
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 3
 			titulo = f"Personas que han viajado en vuelos de {vuelos[0]} pero no en vuelos de {vuelos[1]}"
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reporte_vuelos_personas")
 		elif reporte == "prom_sillas_buses":
@@ -282,8 +288,10 @@ def generar_reportes(reporte,variable):
 			sql +=		"SELECT AVG(numAsientos) AS prom_asientos FROM Bus\n"
 			sql +=		f"WHERE empresa LIKE '{variable}'\n"
 			sql += 	")"
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 4
 			titulo = f"Empresas de buses que tiene un promedio de sillas mayor al de la empresa {variable}"	
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "prom_sillas_buses")
 		else:	
@@ -319,27 +327,27 @@ def cargar_datos():
 	data2 = cur.fetchall()
 	return render_template("reportes.html", usuario = session["persona"], empresasVuelos = data, empresasBuses = data2)
 
-@app.route('/reporte_reservas', methods=['POST'])
+@app.route('/generar_reporte', methods=['POST'])
 def generar_reporte_reservas():
 	if request.method == 'POST':
-		input_file = os.path.dirname(os.path.abspath(__file__)) + "/examples/reporte_reservas.jrxml"
-		output =  os.path.dirname(os.path.abspath(__file__)) + "/output/examples"
-		print(input_file)
-		print(output)
-		con = {
-			'driver': 'mysql',
-			'username': 'admin',
-			'password': '1234',
-			'host': 'localhost',
-			'database': 'lacatuli',
-			'port':'3306'
-		}
+		sql = session["sql_actual"]
+		num = session["reporte_actual"]
+		reportePDF.generarReporte(sql, mysql, num)
+		return redirect(url_for("cargar_datos"))
+
+@app.route('/reporte_reserva', methods=['POST'])
+def n():
+	if request.method == 'POST':
+		input_file = os.path.dirname(os.path.abspath(__file__)) + \
+                 '/examples/reporte_reservas.jrxml'
+		output = os.path.dirname(os.path.abspath(__file__)) + '/output/examples'
 		jasper = JasperPy()
 		jasper.process(
 			input_file,
 			output_file=output,
 			format_list=["pdf"],
-			db_connection=con
+			db_connection=mysql.connection.cursor(),
+			locale='pt_BR'  # LOCALE Ex.:(en_US, de_GE)
 		)
 
 def verificarLogin(usuario, contasenia):
