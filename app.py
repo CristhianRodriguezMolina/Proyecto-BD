@@ -215,7 +215,6 @@ def generar_reportes(reporte,variable):
 			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
 			cur.execute(sql)
 			data = cur.fetchall() 
-			session["datos_actuales"] = data
 			#PDF CRISTHIAN
 			"""rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
 			css = ["static/lib/bootstrap/css/bootstrap.min.css",
