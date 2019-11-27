@@ -1,26 +1,46 @@
-INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`) VALUES
-('1201', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313-598-8016'),
-('1202', 'Cristhian Camilo Rodriguez Molina', 'cristhwalker@gmail.com', '313-452-2456'),
-('1203', 'Daniel Bonilla Guevarra', 'bonia@gmail.com', '312-452-8354'),
-('1204', 'Andres llinas', 'llinas@gmail.com', '315-351-624'),
-('1205', 'Wilmar Stiven Valencia Cardona', 'wilzhar@gmail.com', '312-642-6247'),
-('1206', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275'),
-('1207', 'Jaime Antonio Nieto', 'nietoadictolol@gmail.com', '317-356-2532'),
-('1208', 'Luisa Cotte', 'lussolar@gmail.com', '313-135-6246'),
-('1209', 'Yelsid Mami', 'yelsidmami@gmail.com', '317-646-3858'),
-('1210', 'Sergio Osorio Angel', 'sergiohacks@gmail.com', '312-647-8359');
+INSERT INTO `Persona` (`cedula`, `nombre`, `correo`, `telefono`, `activo`) VALUES
+('1201', 'Juan Manuel Roa Mejia', 'jumarome@gmail.com', '313-598-8016', '0'),
+('1202', 'Cristhian Camilo Rodriguez Molina', 'cristhwalker@gmail.com', '314-535-6264', '1'),
+('1203', 'Daniel Bonilla Guevarra', 'bonia@gmail.com', '312-452-8354', '1'),
+('1204', 'Andres llinas', 'llinas@gmail.com', '315-351-624', '0'),
+('1205', 'Wilmar Stiven Valencia Cardona', 'wilzhar@gmail.com', '312-642-6247', '1'),
+('1206', 'Cristian Camilo Quiceno', 'joshua@gmail.com', '311-532-6275', '1'),
+('1207', 'Jaime Antonio Nieto', 'nietoadictolol@gmail.com', '317-356-2532', '0'),
+('1208', 'Luisa Cotte', 'lussolar@gmail.com', '313-135-6246', '0'),
+('1209', 'Yelsid Mami', 'yelsidmami@gmail.com', '317-646-3858', '1'),
+('1210', 'Sergio Osorio Angel', 'sergiohacks@gmail.com', '312-647-8359', '1'),
+('1211', 'Maria Jose Garcia Quintero', 'mariajose@gmail.com', '315-231-1248', '1'),
+('1212', 'Miguel Angel Martinez', 'miguelangel@gmail.com', '316-353-5465', '1'),
+('1213', 'Angelica Arroyave Duque', 'angelicaduque@gmail.com', '316-367-6858', '1'),
+('1214', 'Luis Osorio Gomez', 'lucho@gmail.com', '317-548-0483', '1'),
+('1215', 'John James Ospina', 'john_ospina@gmail.com', '315-748-4395', '1'),
+('1216', 'Juan Felipe Tapasco', 'tapasco@gmail.com', '314-788-3934', '1');
 
-INSERT INTO `Cliente` (`activo`, `Persona_cedula`) VALUES
-('S', '1203'),
-('S', '1204');
+
+INSERT INTO `Cliente` (`Persona_cedula`) VALUES
+('1203'),
+('1204');
 
 INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
 ('647383', '1201'),
-('735836', '1202');
+('735836', '1202'),
+('678396', '1211'),
+('839347', '1212'),
+('462728', '1213'),
+('846423', '1214'),
+('416361', '1215'),
+('748234', '1216');
 
 INSERT INTO `Bus` (`placa`, `numAsientos`, `soat`, `empresa`, `Conductor_Persona_cedula`) VALUES
 ('GAD-975', 25, '4753846784', 'Buses Armenia', '1202'),
-('MSK-754', 20, '6473961023', 'Coorbuquin', '1201');
+('MSK-754', 20, '6473961023', 'Coorbuquin', '1201'),
+('GEH-682', 25, '5848388703', 'Coorbuquin', '1211'),
+('LOE-726', 15, '9824868353', 'Coorbuquin', '1213'),
+('YTS-742', 10, '8793281765', 'Buses Armenia', '1212'), 
+('MBR-648', 27, '6285383984', 'Buses Armenia', '1214'),
+('YTX-642', 31, '5873789285', 'TRANSTEBAIDA', '1215'),
+('HIX-614', 28, '5736791023', 'TRANSTEBAIDA', '1216');
+
 
 INSERT INTO `Guia` (`id`, `Persona_cedula`) VALUES
 (1, '1205');
@@ -51,12 +71,12 @@ INSERT INTO `Ciudad` (`codPostal`, `codCiudad`, `nombre`) VALUES
 ('630013', '113', 'Pereira');
 
 INSERT INTO `SitioTuristico` (`nombre`, `direccion`, `Ciudad_codCiudad`) VALUES
-('Caño Cristales', 'sierra de la Macarena', '117'),
-('Cerro Azul', 'Iglesia Centro Azul Primavera', '119'),
-('Minas de Nemocón', 'Cl. 2 ##0-05', '114'),
-('Parque Nacional Natural El Tuparro', 'Vichada', '115'),
-('Punta Gallinas', 'Península de La Guajira', '116'),
-('Reserva Río Claro', 'parte alta del municipio de Sonsó', '118');
+('Caño Cristales', 'sierra de la Macarena', '101'),
+('Cerro Azul', 'Iglesia Centro Azul Primavera', '102'),
+('Minas de Nemocón', 'Cl. 2 ##0-05', '103'),
+('Parque Nacional Natural El Tuparro', 'Vichada', '104'),
+('Punta Gallinas', 'Península de La Guajira', '109'),
+('Reserva Río Claro', 'parte alta del municipio de Sonsó', '110');
 
 INSERT INTO `Hotel` (`nit`, `direccion`, `empresa`, `nombre`, `telefono`) VALUES
 ('33001', 'CR 5#7 N', 'HotelStart', 'MIssan Hotel', '7359300'),
@@ -71,13 +91,12 @@ INSERT INTO `Recorrido` (`id`, `descripcion`) VALUES
 (5604, 'Solo recreación');
 
 INSERT INTO `Paquete` (`Recorrido_id`, `SitioTuristico_nombre`, `SitioTuristico_codCiudad`) VALUES
-(5601, 'Caño Cristales', '117'),
-(5601, 'Punta Gallinas', '116'),
-(5602, 'Cerro Azul', '119'),
-(5602, 'Minas de Nemocón', '114'),
-(5602, 'Reserva Río Claro', '118'),
-(5603, 'Minas de Nemocón', '114'),
-(5604, 'Parque Nacional Natural El Tuparro', '115');
+(5601, 'Caño Cristales', '101'),
+(5601, 'Punta Gallinas', '109'),
+(5602, 'Cerro Azul', '102'),
+(5602, 'Minas de Nemocón', '103'),
+(5602, 'Reserva Río Claro', '110'),
+(5604, 'Parque Nacional Natural El Tuparro', '104');
 
 INSERT INTO `Vuelo` (`referencia`, `empresa`, `fechaSalida`, `fechaLlegada`) VALUES
 ('BO42773T', 'Avianca', '2019-10-31 23:00:00', '2019-11-01 08:50:00'),
