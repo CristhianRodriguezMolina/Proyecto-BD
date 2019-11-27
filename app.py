@@ -159,6 +159,18 @@ def listar_personas():
 	else:
 		return redirect(url_for("login"))
 
+@app.route('/viajes')
+def listar_viajes():
+	if "persona" in session:
+		cur = mysql.connection.cursor()
+		cur.execute('SELECT * FROM Viaje')
+
+		data = cur.fetchall()
+
+		return render_template("viajes.html", personas = data, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))
+
 @app.route('/cambiar_estado_persona<cedula>$<estado>')
 def cambiar_estado_persona(cedula, estado):
 	if "persona" in session:
@@ -218,11 +230,95 @@ def generar_reportes(reporte,variable):
 			return response
 			return rendered"""
 
-			return render_template("descripcion_reporte.html",titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"], fecha = variable)
+			return render_template("descripcion_reporte.html", titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"], tipo = "reservas")
+		elif reporte == "sitios_turisticos":
+
+			cur = mysql.connection.cursor()
+			sql = "SELECT st.nombre AS sitio_turistico, st.direccion, c.nombre AS ciudad, count(per.cedula) AS turistas\n"
+			sql += 	"FROM Persona per, Grupo g, Reserva res, Viaje v, Recorrido rec, Paquete paq, SitioTuristico st, Ciudad c \n"
+			sql += 	"WHERE per.cedula = g.Persona_cedula\n"
+			sql += 	"AND g.Reserva_id = res.id\n"
+			sql += 	"AND res.id = v.Reserva_id\n"
+			sql += 	"AND v.Recorrido_id = rec.id\n"
+			sql += 	"AND rec.id = paq.Recorrido_id\n"
+			sql += 	"AND paq.SitioTuristico_nombre = st.nombre\n"
+			sql += 	"AND paq.SitioTuristico_codCiudad = st.Ciudad_codCiudad\n"
+			sql += 	"AND st.Ciudad_codCiudad = c.codCiudad\n"
+			sql += 	"GROUP BY st.nombre\n"
+			sql += 	"ORDER BY turistas DESC\n"
+			sql += 	"LIMIT 5"
+			cur.execute(sql);
+			data = cur.fetchall()
+			return render_template("descripcion_reporte.html", titulo = "Los 5 sitios turisticos mas visitados en todos los tiempos", reporte = data, usuario = session["persona"], tipo = "sitios_turisticos")
+		elif reporte == "reporte_vuelos_personas":
+			vuelos = variable.split(",")
+			cur = mysql.connection.cursor()
+			sql = 	"SELECT p.cedula, p.nombre, vul.referencia, vul.empresa\n"
+			sql += 	"FROM Vuelo vul, Tiqueteria t, Viaje vje, Reserva r, Grupo g, Persona p\n"
+			sql += 	"WHERE vul.referencia = t.Vuelo_referencia\n"
+			sql += 	"AND t.Viaje_id = vje.id\n"
+			sql += 	"AND vje.Reserva_id = r.id\n"
+			sql += 	"AND r.id = g.Reserva_id\n"
+			sql += 	"AND g.Persona_cedula = p.cedula\n"
+			sql += 	f"AND vul.empresa = '{vuelos[0]}'\n"
+			sql += 	"AND p.cedula NOT IN(\n"
+			sql += 		"SELECT p.cedula\n"
+			sql += 		"FROM Vuelo vul, Tiqueteria t, Viaje vje, Reserva r, Grupo g, Persona p\n"
+			sql += 		"WHERE vul.referencia = t.Vuelo_referencia\n"
+			sql += 		"AND t.Viaje_id = vje.id\n"
+			sql += 		"AND vje.Reserva_id = r.id\n"
+			sql += 		"AND r.id = g.Reserva_id\n"
+			sql += 		"AND g.Persona_cedula = p.cedula\n"
+			sql += 		f"AND vul.empresa = '{vuelos[1]}'\n"
+			sql += 	")"
+			cur.execute(sql);
+			data = cur.fetchall()
+			titulo = f"Personas que han viajado en vuelos de {vuelos[0]} pero no en vuelos de {vuelos[1]}"
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reporte_vuelos_personas")
+		elif reporte == "prom_sillas_buses":
+			cur = mysql.connection.cursor()
+			sql = 	"SELECT empresa, AVG(numAsientos) AS prom_asientos FROM Bus\n"
+			sql +=	"GROUP BY empresa\n"
+			sql +=	"HAVING AVG(numAsientos) > (\n"
+			sql +=		"SELECT AVG(numAsientos) AS prom_asientos FROM Bus\n"
+			sql +=		f"WHERE empresa LIKE '{variable}'\n"
+			sql += 	")"
+			cur.execute(sql);
+			data = cur.fetchall()
+			titulo = f"Empresas de buses que tiene un promedio de sillas mayor al de la empresa {variable}"	
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "prom_sillas_buses")
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
+
+@app.route('/crear_viaje', methods = ["POST", "GET"])
+def crear_viaje():
+	if "persona" in session:
+		if request.method == "POST":
+			cedula = request.form["cedula"]
+			nombre = request.form["nombre"]
+			correo = request.form["correo"]
+			telefono = request.form["tel"]
+
+			cur = mysql.connection.cursor()
+			cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
+				(cedula, nombre, correo, telefono))
+			mysql.connection.commit()	
+			return redirect(url_for("listar_viajes"))
+		else:
+			return render_template("crear_viaje.html", usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))
+
+@app.route('/cargar_datos')
+def cargar_datos():
+	cur = mysql.connection.cursor()
+	cur.execute('SELECT empresa FROM Vuelo GROUP BY empresa')
+	data = cur.fetchall()
+	cur.execute('SELECT empresa FROM Bus GROUP BY empresa')
+	data2 = cur.fetchall()
+	return render_template("reportes.html", usuario = session["persona"], empresasVuelos = data, empresasBuses = data2)
 
 @app.route('/reporte_reservas', methods=['POST'])
 def generar_reporte_reservas():
