@@ -125,7 +125,7 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Empresa</th>
+                        <th>Empresa de buses</th>
                         <th>Promedio de asientos</th>
                       </tr>
                     </thead>
@@ -134,6 +134,78 @@
                       <tr">
                         <td>{{registro[0]}}</td>
                         <td>{{registro[1]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            
+         </section>
+    </section>
+    </section>
+
+{% elif tipo == "hospedantes_hoteles"%}
+    <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Empresa de hoteles</th>
+                        <th>Numero de hospedantes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte %}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            
+         </section>
+    </section>
+    </section>
+
+  {% elif tipo == "extension_correo"%}
+    <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Cedula</th>
+                        <th>Nombre</th>
+                        <th>E-mail</th>
+                        <th>Telefono</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte %}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                        <td>{{registro[2]}}</td>
+                        <td>{{registro[3]}}</td>
                       </tr>
                      {% endfor %} 
                     </tbody>
