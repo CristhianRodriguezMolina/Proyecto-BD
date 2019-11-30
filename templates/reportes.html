@@ -86,8 +86,21 @@
                       <input type="button" onclick="verReporte('prom_sillas_buses');" class="btn btn-round btn-info" value = "Ver reporte">
                     <td>
                   </tr>
-
-
+                  <!--QUINTO REPORTE -->
+                  <tr>
+                    <td>Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles
+                    <td>
+                      <select id = "cbxHoteles" class="btn btn-default dropdown-toggle">
+                        {% for empresaHoteles in empresasHoteles %}
+                        <option value="{{empresaHoteles}}">{{empresaHoteles[0]}}</option>
+                        {% endfor %}
+                      </select>
+                    </td>
+                    </td>
+                    <td>
+                      <input type="button" onclick="verReporte('hospedantes_hoteles');" class="btn btn-round btn-info" value = "Ver reporte">
+                    <td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -121,6 +134,13 @@ function verReporte(tipo) {
       cbxBuses = cbxBuses.substring(2, cbxBuses.length - 3);
       window.location = "/reportes_lista$" + String(tipo) + "$" + cbxBuses; 
     }
+    else if(tipo == "hospedantes_hoteles")
+    {
+      var cbxHoteles = document.getElementById("cbxHoteles").value;
+      cbxHoteles = cbxHoteles.substring(2, cbxHoteles.length - 3);
+      window.location = "/reportes_lista$" + String(tipo) + "$" + cbxHoteles; 
+    }
+    
 }
 
 </script>>         
