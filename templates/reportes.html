@@ -35,7 +35,23 @@
                     <td>
                   </tr>
 
-                   <!-- SEGUNDO REPORTE -->
+                  <!-- SEGUNDO REPORTE -->
+                  <tr>
+                    <td>Personas con correos con extension de </td>
+                    <td>
+                      <select id = "cbxCorreos" class="btn btn-default dropdown-toggle">
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="outlook.com">outlook.com</option>
+                        <option value="yahoo.com">yahoo.com</option>
+                        <option value="hotmail.com">hotmail.com</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="button" onclick="verReporte('extension_correo');" class="btn btn-round btn-info" value = "Ver reporte">
+                    <td>
+                  </tr>
+
+                   <!-- TERCER REPORTE -->
                   <tr>
                     <td>Los 5 Sitios turisticos mas visitados de todos los tiempos</td>
                     <td>
@@ -48,7 +64,7 @@
                     <td>
                   </tr>
 
-                  <!-- TERCER REPORTE -->
+                  <!-- CUARTO REPORTE -->
                   <tr>
                     <td>Personas que han viajado en vuelos de 
                       <select id = "cbxVuelos1" class="btn btn-default dropdown-toggle">
@@ -71,7 +87,7 @@
                     <td>
                   </tr>
 
-                  <!-- CUARTO REPORTE -->
+                  <!-- QUINTO REPORTE -->
                   <tr>
                     <td>Empresas de buses que tiene un promedio de sillas mayor al de la empresa</td>
                     <td>
@@ -86,7 +102,7 @@
                       <input type="button" onclick="verReporte('prom_sillas_buses');" class="btn btn-round btn-info" value = "Ver reporte">
                     <td>
                   </tr>
-                  <!--QUINTO REPORTE -->
+                  <!--SEXTO REPORTE -->
                   <tr>
                     <td>Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles
                     <td>
@@ -139,6 +155,11 @@ function verReporte(tipo) {
       var cbxHoteles = document.getElementById("cbxHoteles").value;
       cbxHoteles = cbxHoteles.substring(2, cbxHoteles.length - 3);
       window.location = "/reportes_lista$" + String(tipo) + "$" + cbxHoteles; 
+    }
+    else if(tipo == "extension_correo")
+    {
+      var cbxCorreos = document.getElementById("cbxCorreos").value;
+      window.location = "/reportes_lista$" + String(tipo) + "$" + cbxCorreos; 
     }
     
 }

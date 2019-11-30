@@ -211,7 +211,6 @@ def generar_reportes(reporte,variable):
 
 			cur = mysql.connection.cursor()
 			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
-			print("PERRROOOO",sql)
 			cur.execute(sql)
 			data = cur.fetchall() 
 
@@ -225,6 +224,23 @@ def generar_reportes(reporte,variable):
 			# return response
 
 			return render_template("descripcion_reporte.html", titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"], tipo = "reservas")
+		elif reporte == "extension_correo":
+
+			cur = mysql.connection.cursor()
+			sql = f"SELECT * FROM Persona WHERE correo LIKE '%{variable}'"
+			cur.execute(sql)
+			data = cur.fetchall() 
+
+			#PDF CRISTHIAN
+			# rendered = render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			# pdf = pdfkit.from_string(rendered, False)
+
+			# response = make_response(pdf)
+			# response.headers['Content-Type'] = 'application/pdf'
+			# response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+			# return response
+
+			return render_template("descripcion_reporte.html", titulo = f"Personas con correos con extension de {variable}", reporte = data, usuario = session["persona"], tipo = "extension_correo")
 		elif reporte == "sitios_turisticos":
 
 			cur = mysql.connection.cursor()
