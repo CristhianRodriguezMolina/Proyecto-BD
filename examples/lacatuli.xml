@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>lacatuli</name><driver>org.mariadb.jdbc.Driver</driver><username>admin</username><password>1234</password><savePassword>true</savePassword><url>jdbc:mariadb://localhost:3306/lacatuli</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

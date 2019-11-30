@@ -3,8 +3,11 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_reservas" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="68892a9a-d696-49c3-b863-ee114bbe3517">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="lacatuli"/>
+	<parameter name="fechaSalida_param" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2019-11]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
-		<![CDATA[select * from lacatuli.reserva]]>
+		<![CDATA[select * from lacatuli.reserva where fechaSalida like $P{fechaSalida_param}]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>

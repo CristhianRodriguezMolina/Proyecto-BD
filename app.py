@@ -217,6 +217,7 @@ def generar_reportes(reporte,variable):
 			data = cur.fetchall() 
 			session["sql_actual"] = sql
 			session["reporte_actual"] = 1
+			session["parametros"] = {'fechaSalida_param' : variable}
 			#PDF CRISTHIAN
 			"""rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
 			css = ["static/lib/bootstrap/css/bootstrap.min.css",
@@ -341,14 +342,24 @@ def n():
 		input_file = os.path.dirname(os.path.abspath(__file__)) + \
                  '/examples/reporte_reservas.jrxml'
 		output = os.path.dirname(os.path.abspath(__file__)) + '/output/examples'
+		con = {
+			'driver': 'mysql',
+			'username': 'admin',
+			'password': '1234',
+			'host': 'localhost',
+			'database': 'lacatuli',
+    	}
+		print(mysql.connection)
 		jasper = JasperPy()
 		jasper.process(
 			input_file,
 			output_file=output,
 			format_list=["pdf"],
-			db_connection=mysql.connection.cursor(),
+			db_connection=con,
+			parameters={'fechaSalida_param' : "2019-01"},
 			locale='pt_BR'  # LOCALE Ex.:(en_US, de_GE)
 		)
+		return redirect(url_for("cargar_datos"))
 
 def verificarLogin(usuario, contasenia):
 	pass
