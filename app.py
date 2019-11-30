@@ -93,10 +93,12 @@ def registrarse():
 			print(len(data))
 
 			if len(data) == 0:
-				cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono) VALUES (%s,%s,%s,%s)',
-					(cedula, nombre, correo, telefono))
+				cur.execute('INSERT INTO Persona (cedula, nombre, correo, telefono,activo) VALUES (%s,%s,%s,%s,%s)',
+					(cedula, nombre, correo, telefono, 1))
 				mysql.connection.commit()
-				cur.execute('INSERT INTO Cliente (activo, Persona_cedula) VALUES (%s, %s)', ('1', cedula))
+				sql = 'INSERT INTO Cliente (Persona_cedula) VALUES ('+cedula+')'
+				print(sql)
+				cur.execute(sql)
 				cur.execute('INSERT INTO Cuenta (usuario, contrasenia, Cliente_Persona_cedula) VALUES (%s,%s,%s)',
 					(usuario, contrasenia, cedula))
 				mysql.connection.commit()	
@@ -319,10 +321,36 @@ def generar_reportes(reporte,variable):
 			sql +=	f"	AND h.empresa LIKE '{variable}'\n"
 			sql +=	")"
 
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
 			titulo = f"Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles {variable}"	
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "hospedantes_hoteles")
+		elif reporte == "asociados_por_reserva":
+			cur = mysql.connection.cursor()
+			sql = "SELECT Reserva_id,COUNT(Persona_cedula) as p_con_cuenta "
+			sql +="FROM Grupo WHERE Persona_cedula IN (SELECT Cuenta.Cliente_Persona_cedula FROM Cuenta) "
+			sql +="GROUP BY Reserva_id"
+
+			cur.execute(sql)
+			data = cur.fetchall()
+			titulo = f"Cantidad de personas con cuenta en LACATULI por reserva"
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "asociados_por_reserva")
+
+		elif reporte == "reserva_mas_numerosa_por_anio":
+			cur = mysql.connection.cursor()
+			sql = "SELECT Reserva_id,COUNT(Persona_cedula) as cant_personas FROM Grupo "
+			sql+= f"WHERE Reserva_id IN (SELECT id from Reserva WHERE fechaLlegada LIKE '%{variable}%') "
+			sql+= "AND Reserva_id IN (SELECT Reserva_id FROM (SELECT Reserva_id,COUNT(Persona_cedula) as p_con_cuenta "
+			sql+= "FROM Grupo WHERE Persona_cedula IN (SELECT Cuenta.Cliente_Persona_cedula FROM Cuenta) "
+			sql+= "GROUP BY Reserva_id HAVING p_con_cuenta > 1) as reservas_con_2Cuentas)GROUP BY Reserva_id "
+			sql+= "ORDER BY cant_personas DESC"
+
+			cur.execute(sql)
+			data = cur.fetchall()
+			titulo = f"Reserva(s) con el grupo más numeroso para el año {variable}\nAcalaración: Solo aquellas reservas con 2 personas (o más) con cuenta en LACATULI.com"
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reserva_mas_numerosa_por_anio")
+	
+			
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:

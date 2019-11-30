@@ -117,6 +117,36 @@
                       <input type="button" onclick="verReporte('hospedantes_hoteles');" class="btn btn-round btn-info" value = "Ver reporte">
                     <td>
                   </tr>
+                  <!-- SEPTIMO REPORTE -->
+                  <tr>
+                    <td>Cantidad de personas con cuenta en LACATULI por reserva</td>
+                    <td>
+                    </td> 
+                    <td>
+                      <a type="button" href="/reportes_lista$asociados_por_reserva$_" class="btn btn-round btn-info">
+                        Ver reporte
+                      </a>
+                    <td>
+                  </tr>
+
+                  <!-- OCTAVO REPORTE -->
+                  <tr>
+                    <td>Reserva(s) con el grupo más numeroso para el año: solo aquellas reservas con 2 personas (o más) con cuenta en LACATULI.com</td>
+                    <td>
+                      <div class="form-group">
+                        <label class="control-label col-md-3">Sólo años:</label>
+                        <div class="col-md-10 col-xs-11">
+                          
+                            <input type="number" name = "anio"  class="form-control" id = "anio" placeholder="2xxx" min = "2000" max = "2200" >
+                          </div>
+                          
+                        </div>
+                    </td>
+                    <td>
+                      <input type="button" onclick="verReporte('reserva_mas_numerosa_por_anio');" class="btn btn-round btn-info" value = "Ver reporte">
+                    </td>
+                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -161,6 +191,12 @@ function verReporte(tipo) {
       var cbxCorreos = document.getElementById("cbxCorreos").value;
       window.location = "/reportes_lista$" + String(tipo) + "$" + cbxCorreos; 
     }
+     else if(tipo == "reserva_mas_numerosa_por_anio")
+    {
+      var anio = document.getElementById("anio").value;
+      window.location = "/reportes_lista$" + String(tipo) + "$" + anio; 
+    }
+  
     
 }
 

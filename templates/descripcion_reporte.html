@@ -181,6 +181,40 @@
     </section>
     </section>
 
+  {% elif tipo == "asociados_por_reserva"%}
+    <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Numero de la reserva</th>
+                        <th>Personas con cuenta en LACATULI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte %}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            
+         </section>
+    </section>
+    </section>  
+
   {% elif tipo == "extension_correo"%}
     <section id="main-content">
           <section class="wrapper">
@@ -218,6 +252,41 @@
          </section>
     </section>
     </section>
+
+    {% elif tipo == "reserva_mas_numerosa_por_anio"%}
+    <section id="main-content">
+          <section class="wrapper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Id Reserva</th>
+                        <th>Numero de Personas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte %}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            
+         </section>
+    </section>
+    </section>
+
 
 {% endif %}
 <script type="text/javascript">
