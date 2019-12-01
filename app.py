@@ -456,8 +456,8 @@ def generar_reportes(reporte,variable):
 		elif reporte == "reservas_personas":
 			cur = mysql.connection.cursor()
 			sql = "SELECT re.id, re.reservante, COUNT(pe.cedula) AS cant_personas\n"
-			sql +="FROM (grupo g INNER JOIN persona pe ON g.persona_cedula = pe.cedula)\n"
-			sql +="INNER JOIN reserva re ON g.reserva_id = re.id\n"
+			sql +="FROM (Grupo g INNER JOIN Persona pe ON g.Persona_cedula = pe.cedula)\n"
+			sql +="INNER JOIN Reserva re ON g.Reserva_id = re.id\n"
 			sql +="GROUP BY re.id\n"
 			cur.execute(sql)
 			data = cur.fetchall()
