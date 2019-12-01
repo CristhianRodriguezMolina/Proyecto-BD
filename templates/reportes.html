@@ -12,7 +12,20 @@
               <hr>
               <table class="table">
                 <tbody>
-
+                  {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                      {% for message in messages %}
+                      
+                      <div class="alert alert-success" role="alert">
+                          <strong>{{message}}</strong>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      
+                      {% endfor %}
+                    {% endif %}
+                  {% endwith %}
                   <!-- PRIMER REPORTE -->
                   <tr>
                     <td>Reservas realizadas en el mes de:</td>

@@ -375,7 +375,7 @@ def generar_reportes(reporte,variable):
 			cur.execute(sql)
 			data = cur.fetchall()
 			session["sql_actual"] = sql
-			session["reporte_actual"] = 4
+			session["reporte_actual"] = 3
 			titulo = f"Personas que han viajado en vuelos de {vuelos[0]} pero no en vuelos de {vuelos[1]}"
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reporte_vuelos_personas")
 		elif reporte == "prom_sillas_buses":
@@ -389,7 +389,7 @@ def generar_reportes(reporte,variable):
 			cur.execute(sql)
 			data = cur.fetchall()
 			session["sql_actual"] = sql
-			session["reporte_actual"] = 5
+			session["reporte_actual"] = 4
 			titulo = f"Empresas de buses que tiene un promedio de sillas mayor al de la empresa {variable}"	
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "prom_sillas_buses")
 		elif reporte == "hospedantes_hoteles":
@@ -414,7 +414,7 @@ def generar_reportes(reporte,variable):
 			sql +=	f"	AND h.empresa LIKE '{variable}'\n"
 			sql +=	")"
 			session["sql_actual"] = sql
-			session["reporte_actual"] = 6
+			session["reporte_actual"] = 5
 			cur.execute(sql)
 			data = cur.fetchall()
 			titulo = f"Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles {variable}"	
@@ -437,7 +437,8 @@ def generar_reportes(reporte,variable):
 			sql = "SELECT Reserva_id,COUNT(Persona_cedula) as p_con_cuenta "
 			sql +="FROM Grupo WHERE Persona_cedula IN (SELECT Cuenta.Cliente_Persona_cedula FROM Cuenta) "
 			sql +="GROUP BY Reserva_id"
-
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 6
 			cur.execute(sql)
 			data = cur.fetchall()
 			titulo = f"Cantidad de personas con cuenta en LACATULI por reserva"
@@ -451,7 +452,8 @@ def generar_reportes(reporte,variable):
 			sql+= "FROM Grupo WHERE Persona_cedula IN (SELECT Cuenta.Cliente_Persona_cedula FROM Cuenta) "
 			sql+= "GROUP BY Reserva_id HAVING p_con_cuenta > 1) as reservas_con_2Cuentas)GROUP BY Reserva_id "
 			sql+= "ORDER BY cant_personas DESC"
-
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 7
 			cur.execute(sql)
 			data = cur.fetchall()
 			titulo = f"Reserva(s) con el grupo más numeroso para el año {variable}\nAcalaración: Solo aquellas reservas con 2 personas (o más) con cuenta en LACATULI.com"
@@ -464,6 +466,8 @@ def generar_reportes(reporte,variable):
 			sql += "WHERE id = Recorrido_id GROUP BY Recorrido_id" 
 			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 8
 			titulo = "Numero de sitios Turisticos a visitar en cada recorrido"
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "n_sitios_turisticos")
 		
@@ -508,6 +512,7 @@ def generar_reporte_reservas():
 		sql = session["sql_actual"]
 		num = session["reporte_actual"]
 		reportePDF.generarReporte(sql, mysql, num)
+		flash('PDF creado correctamente en /output/examples')
 		return redirect(url_for("cargar_datos"))
 
 @app.route('/generar_reporte_jasper', methods=['POST'])
@@ -532,6 +537,7 @@ def n():
 			parameters=session["parametros"],
 			locale='pt_BR'  # LOCALE Ex.:(en_US, de_GE)
 		)
+		flash('PDF creado correctamente en /output/examples')
 		return redirect(url_for("cargar_datos"))
 
 def verificarLogin(usuario, contasenia):

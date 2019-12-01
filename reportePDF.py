@@ -188,7 +188,7 @@ def generarReporte(consulta, mysql, num):
     cabecera = ""
 
     if num == 1:
-        titulo = "Reservas"
+        titulo = "Reservas para el mes de _____"
         cabecera = (
         ("ID", "D.N.I"),
         ("FECHASALIDA", "FECHA DE SALIDA"),
@@ -198,7 +198,7 @@ def generarReporte(consulta, mysql, num):
         ("FECHALLEGADA", "FECHA DE REGRESO"),
         )
     elif num == 2:
-        titulo = "Personas con extensión de correo _____"
+        titulo = "Personas con correos con extension de ____"
         cabecera = (
         ("cedula", "CEDULA"),
         ("nombre", "NOMBRE VIAJERO"),
@@ -206,31 +206,54 @@ def generarReporte(consulta, mysql, num):
         ("telefono", "TELEFONO")
         )
     elif num == 3:
-        titulo = "Los 5 sitios turisticos mas visitados"
-        cabecera = (
-        ("SITIO_TURISTICO", "SITIO TURISTICO"),
-        ("DIRECCION", "DIRECCION"),
-        ("CIUDAD", "CIUDAD"),
-        ("TURISTAS", "CANT. TURISTAS")
-        )
-    elif num == 4:
-        titulo = "Viajero que han viajado en ____ pero no en ____"
+        titulo = "Personas que han viajado en vuelos de ____ pero no en vuelos de ____"
         cabecera = (
         ("cedula", "CEDULA"),
         ("nombre", "NOMBRE VIAJERO"),
         ("referencia", "REFERENCIA DE VUELO")
         )
-    elif num == 5:
-        titulo = "Promedio asientos de ____"
+    elif num == 4:
+        titulo = "Empresas de buses que tiene un promedio de sillas mayor al de la empresa ____"
         cabecera = (
         ("empresa", "EMPRESA"),
         ("prom_asientos", "PROMEDIO ASIENTOS")
         )
-    elif num == 6:
+    elif num == 5:
         titulo = "Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles _______"
         cabecera = (
         ("hotel", "EMPRESA DE HOTELES"),
         ("n_clientes", "NUMERO DE HOSPEDANTES")
+        )
+    elif num == 6:
+        titulo = "Cantidad de personas con cuenta en LACATULI por reserva"
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("p_con_cuenta", "NUMERO DE PERSONAS")
+        )
+    elif num == 6:
+        titulo = "Cantidad de personas con cuenta en LACATULI por reserva"
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("p_con_cuenta", "NUMERO DE PERSONAS")
+        )
+    elif num == 6:
+        titulo = "Cantidad de personas con cuenta en LACATULI por reserva"
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("p_con_cuenta", "NUMERO DE PERSONAS")
+        )
+    elif num == 7:
+        titulo = "Reserva(s) con el grupo más numeroso para el año ____\nAcalaración: Solo aquellas reservas con 2 personas (o más) con cuenta en LACATULI.com"
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("cant_personas", "NUMERO DE PERSONAS")
+        )
+    elif num == 8:
+        titulo = "Numero de sitios Turisticos a visitar en cada recorrido"
+        cabecera = (
+        ("Recorrido_id", "ID DEL RECORRIDO"),
+        ("descripcion", "DESCRIPCION"),
+        ("cant_sitios", "NUMERO DE SITIOS TURISTICOS")
         )
 
     nombrePDF = 'C:\\Users\\ACER\\Documents\\Proyecto BD\\Proyecto-BD\\output\\examples\\' + titulo + '.pdf'
