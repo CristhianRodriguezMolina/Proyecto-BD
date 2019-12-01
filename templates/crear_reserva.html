@@ -1,0 +1,85 @@
+{%extends "base.html"%}
+  {%block content%}
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <!-- BASIC FORM ELELEMNTS -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Crear Reserva</h4>
+              <form action = "#" class="form-horizontal style-form" method="post">
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">id:</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="id">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3">Fecha de Llegada:</label>
+                  <div class="col-md-3 col-xs-11">
+                    <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="2019-01-01" class="input-append date dpYears">
+                      <input type="text" readonly="" value="" size="16" class="form-control" name = "f_llegada">
+                      <span class="input-group-btn add-on">
+                        <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                  </div>
+                </div><div class="form-group">
+                  <label class="control-label col-md-3">Fecha de Salida:</label>
+                  <div class="col-md-3 col-xs-11">
+                    <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="2019-01-01" class="input-append date dpYears">
+                      <input type="text" readonly="" value="" size="16" class="form-control" name = "f_salida">
+                      <span class="input-group-btn add-on">
+                        <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Costo ($):</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="costo">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3">Reservante:</label>
+                  <select name = "cbxClientes" id = "cbxClientes" class="btn btn-default dropdown-toggle">
+                        {% for cliente in clientes %}
+                        <option value="{{cliente[0]}}">{{cliente[0]}}</option>
+                        {% endfor %}
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3">Guia:</label>
+                  <select name ="cbxGuias" id = "cbxGuias" class="btn btn-default dropdown-toggle">
+                        {% for guia in guias %}
+                        <option value="{{guia[0]}}">{{guia[0]}}</option>
+                        {% endfor %}
+                  </select>
+                </div>
+
+                 
+              <button type="submit" class="btn btn-primary btn-lg btn-block"> Crear </button>
+              </form>
+            </div>
+          </div>
+          <!-- col-lg-12-->
+        </div>
+        <!-- /row -->
+      
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    
+  </section>
+  {%endblock%}

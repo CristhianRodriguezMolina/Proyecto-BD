@@ -147,6 +147,35 @@ def crear_persona():
 	else:
 		return redirect(url_for("login"))
 
+@app.route('/crear_reserva', methods = ["POST", "GET"])
+def crear_reserva():
+	if "persona" in session:
+		if request.method == "POST":
+			identificador = request.form["id"]
+			f_llegada = request.form["f_llegada"]
+			f_salida = request.form["f_salida"]
+			costo = request.form["costo"]
+			reservante = request.form["cbxClientes"]
+			guia = request.form["cbxGuias"]
+
+			cur = mysql.connection.cursor()
+
+			sql = "INSERT INTO Reserva (id,fechaLlegada,fechaSalida,costo,reservante,Guia_Persona_cedula)"
+			sql += f"VALUES({identificador},'{f_llegada}','{f_salida}',{costo},{reservante},{guia}) "
+			cur.execute(sql)
+			mysql.connection.commit()	
+			return redirect(url_for("listar_reservas"))
+		else:
+			cur = mysql.connection.cursor()
+			cur.execute('SELECT DISTINCT Persona_cedula FROM Cliente')
+			data = cur.fetchall()
+			cur = mysql.connection.cursor()
+			cur.execute('SELECT DISTINCT Persona_cedula FROM Guia')
+			data2 = cur.fetchall()
+			return render_template("crear_reserva.html", usuario = session["persona"], clientes = data, guias = data2)
+	else:
+		return redirect(url_for("login"))		
+
 @app.route('/personas')
 def listar_personas():
 	if "persona" in session:
@@ -158,6 +187,19 @@ def listar_personas():
 		return render_template("personas.html", personas = data, usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
+
+
+@app.route('/reservas')
+def listar_reservas():
+	if "persona" in session:
+		cur = mysql.connection.cursor()
+		cur.execute('SELECT * FROM Reserva')
+
+		data = cur.fetchall()
+
+		return render_template("reservas.html", reservas = data, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))		
 
 @app.route('/viajes')
 def listar_viajes():
@@ -205,6 +247,41 @@ def editar_persona(cedula):
 			return render_template("editar_persona.html", persona = data[0], usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))
+
+@app.route('/editar_reserva<identificador>', methods = ["POST", "GET"])
+def editar_reserva(identificador):
+	if "persona" in session:
+		if request.method == "POST":
+			f_llegada = request.form["f_llegada"]
+			f_salida = request.form["f_salida"]
+			costo = request.form["costo"]
+			reservante = request.form["cbxClientes"]
+			guia = request.form["cbxGuias"]
+
+
+			cur = mysql.connection.cursor()
+			sql = f"UPDATE Reserva SET fechaSalida = '{f_salida}', costo = {costo}, reservante = {reservante}, Guia_Persona_cedula = {guia}, fechaLlegada = '{f_llegada}' WHERE id = {identificador}"
+			print("KAAKAKAKAKAKAKAKAKAKAKAKAKAKAKA")
+			print(sql)
+			cur.execute(sql)
+			mysql.connection.commit()	
+			return redirect(url_for("listar_reservas"))
+		else:	
+			cur = mysql.connection.cursor()
+			sql = f'SELECT * FROM Reserva WHERE id = {identificador}'
+			cur.execute(sql)
+			data = cur.fetchall()
+			cur = mysql.connection.cursor()
+			cur.execute('SELECT DISTINCT Persona_cedula FROM Cliente')
+			data2 = cur.fetchall()
+			cur = mysql.connection.cursor()
+			cur.execute('SELECT DISTINCT Persona_cedula FROM Guia')
+			data3 = cur.fetchall()
+
+
+			return render_template("editar_reserva.html", reserva = data[0], clientes = data2, guias = data3, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))		
 
 @app.route('/reportes_lista$<reporte>$<variable>')
 def generar_reportes(reporte,variable):
@@ -349,8 +426,17 @@ def generar_reportes(reporte,variable):
 			data = cur.fetchall()
 			titulo = f"Reserva(s) con el grupo más numeroso para el año {variable}\nAcalaración: Solo aquellas reservas con 2 personas (o más) con cuenta en LACATULI.com"
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reserva_mas_numerosa_por_anio")
-	
-			
+		
+		elif reporte == "n_sitios_turisticos":
+			cur = mysql.connection.cursor()
+			sql = "SELECT Recorrido_id, descripcion, "
+			sql += "COUNT(SitioTuristico_nombre) as cant_sitios FROM Recorrido, Paquete "
+			sql += "WHERE id = Recorrido_id GROUP BY Recorrido_id" 
+			cur.execute(sql)
+			data = cur.fetchall()
+			titulo = "Numero de sitios Turisticos a visitar en cada recorrido"
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "n_sitios_turisticos")
+		
 		else:	
 			return render_template("reportes.html", usuario = session["persona"])
 	else:

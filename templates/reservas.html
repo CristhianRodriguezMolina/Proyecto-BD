@@ -1,0 +1,61 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Listado de reservas</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> Listado de reservas</h4>
+              <a href="/crear_reserva" class="btn btn-round btn-primary">Crear Reserva</a>
+              <hr>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Fecha Llegada</th>
+                    <th>Fecha Salida</th>
+                    <th>Costo</th>
+                    <th>Reservante</th>
+                    <th>Guia</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for reserva in reservas%}	
+                  <tr>
+                    <td>{{reserva[0]}}</td>
+                    <td>{{reserva[5]}}</td>
+                    <td>{{reserva[1]}}</td>
+                    <td>{{reserva[2]}}</td>
+                    <td>{{reserva[3]}}</td>
+                    <td>{{reserva[4]}}</td>
+                    
+                    <td>                      
+                      <a href="/editar_reserva{{reserva[0]}}" class="btn btn-round btn-success">Editar</a>
+                    <td>
+                  </tr>
+
+                  {% endfor %}
+
+                  <script>
+                  function myFunction(cedula, estado) {
+                    console.log("hjolaasdsadas" + estado);
+                    var url = "/cambiar_estado_reserva" + cedula + "$" + estado;
+                    console.log(url)
+                    window.location.href = url;
+                  }
+                  </script>
+                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+     </section>
+</section>
+
+
+{%endblock%}
+

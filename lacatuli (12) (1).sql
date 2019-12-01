@@ -159,7 +159,7 @@ INSERT INTO `Conductor` (`numLicencia`, `Persona_cedula`) VALUES
 
 CREATE TABLE `Cuenta` (
   `usuario` varchar(20) NOT NULL,
-  `contrasenia` varchar(30) DEFAULT NULL,
+  `contraseña` varchar(30) DEFAULT NULL,
   `Cliente_Persona_cedula` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -167,7 +167,7 @@ CREATE TABLE `Cuenta` (
 -- Volcado de datos para la tabla `Cuenta`
 --
 
-INSERT INTO `Cuenta` (`usuario`, `contrasenia`, `Cliente_Persona_cedula`) VALUES
+INSERT INTO `Cuenta` (`usuario`, `contraseña`, `Cliente_Persona_cedula`) VALUES
 ('hola', '1234', '1203');
 
 -- --------------------------------------------------------
@@ -332,7 +332,7 @@ INSERT INTO `Recorrido` (`id`, `descripcion`) VALUES
 --
 
 CREATE TABLE `Reserva` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `id` smallint(6) NOT NULL,
   `fechaSalida` datetime NOT NULL,
   `costo` decimal(9,2) NOT NULL,
   `reservante` char(10) NOT NULL,
