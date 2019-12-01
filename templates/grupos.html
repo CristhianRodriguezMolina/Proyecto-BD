@@ -1,0 +1,48 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<section id="main-content">
+      <section class="wrapper">
+        <h3><i class="fa fa-angle-right"></i> Listado de personas</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> Listado de Grupos</h4>
+              <a href="/crear_grupo_$_" class="btn btn-round btn-primary">Crear Grupo</a>
+              <hr>
+              {% for grupo in grupos %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th><h5><i class="fa fa-angle-right"></i> Reserva N° {{grupo[0][0]}}</h5></th>
+                    <th><a href="/editar_grupo{{grupo[0][0]}}" class="btn btn-round btn-success">Agregar</a></th>
+                </thead>
+              </table>
+                <table class="table">
+                <thead>
+                  <tr>
+                    <th>Cedula</th>
+                    <th>Nombre</th>
+                </thead>
+                <tbody>
+                  {% for datos_grupo in grupo[1] %}
+                  <tr>
+                    <td>{{datos_grupo[0]}}</td>
+                    <td>{{datos_grupo[1]}}</td>
+                    <td>
+                    <a href="/eliminar_grupo{{datos_grupo[0]}}${{grupo[0][0]}}" class="btn btn-theme04">Eliminar</a></td>
+                  </tr>
+                 {% endfor %}
+                </tbody>
+              </table>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+     </section>
+</section>
+
+
+{%endblock%}
+

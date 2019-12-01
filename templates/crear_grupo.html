@@ -1,0 +1,81 @@
+{%extends "base.html"%}
+  {%block content%}
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <!-- BASIC FORM ELELEMNTS -->
+        <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Crear Grupo</h4>
+              <form class="form-horizontal style-form">
+
+                <div class="form-group">
+                  <label class="control-label col-md-3">N° Reserva:</label>
+                  <select name = "cbxClientes" id = "cbxClientes" class="btn btn-default dropdown-toggle">
+                        {% for reserva in reservas %}
+                        <option value="{{reserva[0]}}">{{reserva[0]}}</option>
+                        {% endfor %}
+                  </select>
+                    <th><a href="/crear_reserva" class="btn btn-round btn-primary">Crear Reserva</a></th>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">Personas: </label>
+                  <table class="table">
+                <thead>
+                  <tr>
+                    <th>Cedula</th>
+                    <th>Nombre</th>
+                </thead>
+                <tbody>
+                  {% for persona in personas%}
+                  <tr>
+                    <td>{{persona[0]}}</td>
+                    <td>{{persona[1]}}</td>
+                    <td>
+                     <div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>" onclick="agregar_persona('{{persona[0]}}')">
+                        <input type="checkbox"/>
+                      </div>
+                    </td>
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+                </div>
+              <a class="btn btn-primary btn-lg btn-block" onclick="crear_grupo();"> Crear </a>
+              </form>
+            </div>
+          </div>
+          <!-- col-lg-12-->
+        </div>
+        <!-- /row -->
+        <script>
+        function agregar_persona(cedula) {
+          dato_personas += cedula + ",";
+        }
+
+        function crear_grupo()
+        {
+          var cbxClientes = document.getElementById("cbxClientes").value;
+          cbxClientes = cbxClientes.substring(2, cbxClientes.length - 3);
+          dato_personas = dato_personas.substring(0, dato_personas.length-1)
+          var url = "/crear_grupo" + dato_personas + "$" + cbxClientes;
+          window.location.href = url;
+        }
+        </script>
+
+        <script>
+          var dato_personas = "";
+        </script>
+      
+      <!-- /wrapper -->
+    </section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    
+  </section>
+  {%endblock%}

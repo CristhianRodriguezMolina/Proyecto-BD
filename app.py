@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, session, make_response
 from flask_mysqldb import MySQL
-from pyreportjasper import JasperPy
-import os, reportePDF
+# from pyreportjasper import JasperPy
+# import os, reportePDF
 #import pdfkit
 
 app = Flask(__name__)
@@ -215,6 +215,23 @@ def listar_viajes():
 	else:
 		return redirect(url_for("login"))
 
+@app.route('/grupos')
+def listar_grupos():
+	if "persona" in session:
+		cur = mysql.connection.cursor()
+		cur.execute('SELECT Reserva_id, COUNT(Persona_cedula) AS n_personas FROM Grupo GROUP BY Reserva_id')
+		datos = cur.fetchall()
+		grupos = list()
+		for dato in datos:	
+			cur.execute(f"SELECT Persona_cedula, nombre FROM Grupo g INNER JOIN Persona p ON g.Persona_cedula = p.cedula WHERE Reserva_id = '{dato[0]}'")
+			tupla = [dato, cur.fetchall()]
+			grupos.append(tupla)
+
+		tam = len(grupos)
+		return render_template("grupos.html", grupos = grupos, tam = grupos, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))
+
 @app.route('/cambiar_estado_persona<cedula>$<estado>')
 def cambiar_estado_persona(cedula, estado):
 	if "persona" in session:
@@ -263,8 +280,6 @@ def editar_reserva(identificador):
 
 			cur = mysql.connection.cursor()
 			sql = f"UPDATE Reserva SET fechaSalida = '{f_salida}', costo = {costo}, reservante = {reservante}, Guia_Persona_cedula = {guia}, fechaLlegada = '{f_llegada}' WHERE id = {identificador}"
-			print("KAAKAKAKAKAKAKAKAKAKAKAKAKAKAKA")
-			print(sql)
 			cur.execute(sql)
 			mysql.connection.commit()	
 			return redirect(url_for("listar_reservas"))
@@ -282,6 +297,36 @@ def editar_reserva(identificador):
 
 
 			return render_template("editar_reserva.html", reserva = data[0], clientes = data2, guias = data3, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))		
+
+@app.route('/eliminar_grupo<persona_gr>$<reserva>')
+def eliminar_grupo(persona_gr, reserva):
+	print("---------------", persona_gr, "------", reserva, "-------------")
+	if "persona" in session:	
+		cur = mysql.connection.cursor()
+		sql = f"DELETE FROM Grupo WHERE Grupo.Reserva_id = {reserva} AND Grupo.Persona_cedula = '{persona_gr}'"
+		cur.execute(sql)
+		mysql.connection.commit()
+		return redirect(url_for("listar_grupos"))		
+	else:
+		return redirect(url_for("login"))		
+
+@app.route('/editar_grupo<identificador>')
+def editar_grupo(identificador):
+	if "persona" in session:
+
+			cur = mysql.connection.cursor()
+			sql = f"SELECT * FROM Grupo WHERE Reserva_id = '{identificador}'"
+			cur.execute(sql)
+			data = cur.fetchall()
+			cur = mysql.connection.cursor()
+			cur.execute('SELECT DISTINCT id FROM Reserva ORDER BY id ASC')
+			data2 = cur.fetchall()
+			cur.execute('SELECT cedula, nombre FROM Persona')
+			data3 = cur.fetchall()
+
+			return render_template("editar_grupo.html",grupo = data, reservas = data2, personas = data3, usuario = session["persona"])
 	else:
 		return redirect(url_for("login"))		
 
@@ -491,14 +536,37 @@ def crear_viaje():
 	else:
 		return redirect(url_for("login"))
 
+@app.route('/crear_grupo<personas_gr>$<reserva>')
+def crear_grupo(personas_gr, reserva):
+	if "persona" in session:
+		if personas_gr != "_":
+
+			personas_gr = personas_gr.split(",")
+
+			cur = mysql.connection.cursor()
+			for persona_gr in personas_gr:
+				cur.execute('INSERT INTO Grupo (Reserva_id, Persona_cedula) VALUES (%s,%s)',
+					(reserva, persona_gr))
+				mysql.connection.commit()
+			return redirect(url_for("listar_grupos"))
+		else:
+			cur = mysql.connection.cursor()
+			cur.execute('SELECT DISTINCT id FROM Reserva ORDER BY id ASC')
+			data = cur.fetchall()
+			cur.execute('SELECT cedula, nombre FROM Persona')
+			data2 = cur.fetchall()
+			return render_template("crear_grupo.html", reservas = data, personas = data2, usuario = session["persona"])
+	else:
+		return redirect(url_for("login"))
+
 @app.route('/cargar_datos')
 def cargar_datos():
 	cur = mysql.connection.cursor()
-	cur.execute('SELECT empresa FROM Vuelo GROUP BY empresa')
+	cur.execute('SELECT DISTINCT empresa FROM Vuelo')
 	data = cur.fetchall()
-	cur.execute('SELECT empresa FROM Bus GROUP BY empresa')
+	cur.execute('SELECT DISTINCT empresa FROM Bus')
 	data2 = cur.fetchall()
-	cur.execute('SELECT empresa FROM Hotel GROUP BY empresa')
+	cur.execute('SELECT DISTINCT empresa FROM Hotel')
 	data3 = cur.fetchall()
 	return render_template("reportes.html", usuario = session["persona"], empresasVuelos = data, empresasBuses = data2, empresasHoteles = data3)
 
