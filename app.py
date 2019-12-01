@@ -323,7 +323,13 @@ def editar_grupo(identificador):
 			cur = mysql.connection.cursor()
 			cur.execute('SELECT DISTINCT id FROM Reserva ORDER BY id ASC')
 			data2 = cur.fetchall()
-			cur.execute('SELECT cedula, nombre FROM Persona')
+
+			sql = 'SELECT cedula, nombre FROM Persona WHERE\n'
+			for dato_grupo in data:
+				sql += f"cedula NOT LIKE '{dato_grupo[1]}' AND "
+			sql = sql[:-4]
+			print(sql)
+			cur.execute(sql)
 			data3 = cur.fetchall()
 
 			return render_template("editar_grupo.html",grupo = data, reservas = data2, personas = data3, usuario = session["persona"])

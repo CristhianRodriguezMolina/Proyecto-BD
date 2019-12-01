@@ -14,15 +14,11 @@
               <form class="form-horizontal style-form">
 
                 <div class="form-group">
-                  <label class="control-label col-md-3">N° Reserva:</label>
-                  <select name = "cbxClientes" id = "cbxClientes" class="btn btn-default dropdown-toggle">
-                        {% for reserva in reservas %}
-                        {%if reserva[0] == grupo[0][0]%}
-                        <option value="{{reserva[0]}}" selected = "">{{reserva[0]}}</option>
-                        {% else %}
-                        <option value="{{reserva[0]}}">{{reserva[0]}}</option>
-                        {% endif %}
-                        {% endfor %}
+                  {% for reserva in reservas %}
+                  {%if reserva[0] == grupo[0][0]%}
+                  <label class="control-label col-md-3">N° Reserva: {{reserva[0]}}</label>
+                  {% endif %}
+                  {% endfor %}
                   </select>
                 </div>
 
@@ -49,7 +45,11 @@
                 </tbody>
               </table>
                 </div>
-              <a class="btn btn-primary btn-lg btn-block" onclick="crear_grupo();"> Crear </a>
+                {% for reserva in reservas %}
+                  {%if reserva[0] == grupo[0][0]%}
+              <a class="btn btn-primary btn-lg btn-block" onclick="crear_grupo('{{reserva[0]}}');"> Crear </a>
+                  {% endif %}
+                  {% endfor %}
               </form>
             </div>
           </div>
@@ -63,12 +63,10 @@
           dato_personas += cedula + ",";
         }
 
-        function crear_grupo()
+        function crear_grupo(identificador)
         {
-          var cbxClientes = document.getElementById("cbxClientes").value;
-          cbxClientes = cbxClientes.substring(2, cbxClientes.length - 3);
           dato_personas = dato_personas.substring(0, dato_personas.length-1)
-          var url = "/crear_grupo" + dato_personas + "$" + cbxClientes;
+          var url = "/crear_grupo" + dato_personas + "$" + identificador;
           window.location.href = url;
         }
         </script>
