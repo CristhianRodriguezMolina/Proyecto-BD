@@ -254,7 +254,6 @@ def generar_reportes(reporte,variable):
 
 			return render_template("descripcion_reporte.html", titulo = f"Personas con correos con extension de {variable}", reporte = data, usuario = session["persona"], tipo = "extension_correo")
 		elif reporte == "sitios_turisticos":
-
 			cur = mysql.connection.cursor()
 			sql = "SELECT st.nombre AS sitio_turistico, st.direccion, c.nombre AS ciudad, count(per.cedula) AS turistas\n"
 			sql += 	"FROM Persona per, Grupo g, Reserva res, Viaje v, Recorrido rec, Paquete paq, SitioTuristico st, Ciudad c \n"
@@ -272,7 +271,8 @@ def generar_reportes(reporte,variable):
 			cur.execute(sql)
 			data = cur.fetchall()
 			session["sql_actual"] = sql
-			session["reporte_actual"] = 3
+			session["reporte_actual"] = "sitios_turisticos"
+			session["parametros"] = {}
 			return render_template("descripcion_reporte.html", titulo = "Los 5 sitios turisticos mas visitados en todos los tiempos", reporte = data, usuario = session["persona"], tipo = "sitios_turisticos")
 		elif reporte == "reporte_vuelos_personas":
 			vuelos = variable.split(",")
@@ -443,6 +443,7 @@ def n():
 			output_file=output,
 			format_list=["pdf"],
 			db_connection=con,
+			parameters=session["parametros"],
 			locale='pt_BR'  # LOCALE Ex.:(en_US, de_GE)
 		)
 		return redirect(url_for("cargar_datos"))
