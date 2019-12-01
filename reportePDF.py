@@ -165,7 +165,7 @@ class numeracionPaginas(canvas.Canvas):
 
 # ===================== FUNCIÓN generarReporte =====================
 
-def generarReporte(consulta, mysql, num):
+def generarReporte(consulta, mysql, num, titulo):
     """Ejecutar consulta a la base de datos (DB_USUARIOS) y llamar la función Exportar, la
        cuál esta en la clase reportePDF, a esta clase le pasamos el título de la tabla, la
        cabecera y los datos que llevará."""
@@ -184,21 +184,18 @@ def generarReporte(consulta, mysql, num):
 
     print(datos)
 
-    titulo = ""
     cabecera = ""
 
     if num == 1:
-        titulo = "Reservas"
         cabecera = (
-        ("ID", "D.N.I"),
-        ("FECHASALIDA", "FECHA DE SALIDA"),
-        ("COSTO", "COSTO"),
-        ("RESERVANTE", "ID RESERVANTE"),
-        ("GUIA_PERSONA_CEDULA", "ID GUIA"),
-        ("FECHALLEGADA", "FECHA DE REGRESO"),
+        ("id", "D.N.I"),
+        ("fechaSalida", "FECHA DE SALIDA"),
+        ("costo", "COSTO"),
+        ("reservante", "ID RESERVANTE"),
+        ("Guia_Persona_cedula", "ID GUIA"),
+        ("fechaLlegada", "FECHA DE REGRESO"),
         )
     elif num == 2:
-        titulo = "Personas con extensión de correo _____"
         cabecera = (
         ("cedula", "CEDULA"),
         ("nombre", "NOMBRE VIAJERO"),
@@ -206,31 +203,46 @@ def generarReporte(consulta, mysql, num):
         ("telefono", "TELEFONO")
         )
     elif num == 3:
-        titulo = "Los 5 sitios turisticos mas visitados"
-        cabecera = (
-        ("SITIO_TURISTICO", "SITIO TURISTICO"),
-        ("DIRECCION", "DIRECCION"),
-        ("CIUDAD", "CIUDAD"),
-        ("TURISTAS", "CANT. TURISTAS")
-        )
-    elif num == 4:
-        titulo = "Viajero que han viajado en ____ pero no en ____"
         cabecera = (
         ("cedula", "CEDULA"),
         ("nombre", "NOMBRE VIAJERO"),
         ("referencia", "REFERENCIA DE VUELO")
         )
-    elif num == 5:
-        titulo = "Promedio asientos de ____"
+    elif num == 4:
         cabecera = (
         ("empresa", "EMPRESA"),
         ("prom_asientos", "PROMEDIO ASIENTOS")
         )
-    elif num == 6:
-        titulo = "Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles _______"
+    elif num == 5:
         cabecera = (
         ("hotel", "EMPRESA DE HOTELES"),
         ("n_clientes", "NUMERO DE HOSPEDANTES")
+        )
+    elif num == 6:
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("p_con_cuenta", "NUMERO DE PERSONAS")
+        )
+    elif num == 6:
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("p_con_cuenta", "NUMERO DE PERSONAS")
+        )
+    elif num == 6:
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("p_con_cuenta", "NUMERO DE PERSONAS")
+        )
+    elif num == 7:
+        cabecera = (
+        ("Reserva_id", "ID DE LA RESERVA"),
+        ("cant_personas", "NUMERO DE PERSONAS")
+        )
+    elif num == 8:
+        cabecera = (
+        ("Recorrido_id", "ID DEL RECORRIDO"),
+        ("descripcion", "DESCRIPCION"),
+        ("cant_sitios", "NUMERO DE SITIOS TURISTICOS")
         )
 
     nombrePDF = 'C:\\Users\\ACER\\Documents\\Proyecto BD\\Proyecto-BD\\output\\examples\\' + titulo + '.pdf'

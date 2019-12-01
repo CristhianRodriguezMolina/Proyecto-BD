@@ -199,11 +199,14 @@
   {% elif tipo == "asociados_por_reserva"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -224,7 +227,7 @@
                 </div>
               </div>
             </div>
-
+            </form>
             
          </section>
     </section>
@@ -311,11 +314,14 @@
     {% elif tipo == "reserva_mas_numerosa_por_anio"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -336,7 +342,7 @@
                 </div>
               </div>
             </div>
-
+            </form>
             
          </section>
     </section>
@@ -346,11 +352,14 @@
     {% elif tipo == "n_sitios_turisticos"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte_jasper">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -374,7 +383,7 @@
                 </div>
               </div>
             </div>
-
+            </form>
             
          </section>
     </section>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sitios_turisticos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="lacatuli"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT Recorrido_id, descripcion, nombre,
+COUNT(SitioTuristico_nombre) as cant_sitios 
+FROM Recorrido, Paquete, ciudad
+WHERE id = Recorrido_id AND SitioTuristico_codCiudad = codCiudad
+GROUP BY Recorrido_id]]>
+	</queryString>
+	<field name="Recorrido_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="Recorrido_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="paquete"/>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="recorrido"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ciudad"/>
+	</field>
+	<field name="cant_sitios" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cant_sitios"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="552" height="90" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[Recorridos y su cantidad de sitios turisticos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="340" y="90" width="196" height="22" uuid="88d4231e-f014-4b0d-b871-1737ba63a1ae"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[LACATULI REPORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="120" width="383" height="16" uuid="f0bfb1ea-a85a-47cd-a1a4-43f22b45e80f"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Propiedad comercial de LACATULI, siempre a la mano de tus viajes y recuerdos.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="1a61a836-d137-48b1-ad67-6ff64600bf93"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="138" height="15" forecolor="#736343" uuid="f7d2bdd7-8a13-44c1-8c25-c29a8831e37f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eecb2870-8142-4024-bfc2-2c821820ebf8"/>
+				</reportElement>
+				<text><![CDATA[ID del recorrido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="138" y="0" width="138" height="15" forecolor="#736343" uuid="f98289e2-1726-4f97-bb9d-836f771dc4c6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a5f68cfd-5222-4705-97fd-9164bc53db9c"/>
+				</reportElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="276" y="0" width="138" height="15" forecolor="#736343" uuid="6068da4c-d08b-4019-95dc-4e566679019f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e0758070-196e-4c49-9b55-857e092a19cf"/>
+				</reportElement>
+				<text><![CDATA[Cant. sitios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="414" y="0" width="138" height="15" forecolor="#736343" uuid="0e99a883-80c8-4d6f-9bf7-1275b355704d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a186fd2c-9f62-4ad7-8094-3f9b66d9582b"/>
+				</reportElement>
+				<text><![CDATA[Ciudad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="138" height="15" uuid="3bbf696b-1adb-421a-9aca-84398b414422">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eecb2870-8142-4024-bfc2-2c821820ebf8"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{Recorrido_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="138" y="0" width="138" height="15" uuid="a14b8c9e-00c8-4533-903b-468973c7a918">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a5f68cfd-5222-4705-97fd-9164bc53db9c"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="276" y="0" width="138" height="15" uuid="f41a9973-b3f2-4fd8-98e8-6370760dcf38">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e0758070-196e-4c49-9b55-857e092a19cf"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{cant_sitios}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="414" y="0" width="138" height="15" uuid="a43dfae8-f115-4bcf-a598-1b609eae065d">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a186fd2c-9f62-4ad7-8094-3f9b66d9582b"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="fa45a887-615a-4d84-a2d7-8a2219671b3c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="183682bc-d976-4756-83e0-6625a3f98ed1"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="0193f9b3-1559-491a-8580-b6988863b6a1"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="d00b105e-494b-418b-8ac9-8b1b4824f4f0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="358" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="10" width="552" height="1" uuid="ac80aa3d-9352-4a1c-a788-d6b767807760"/>
+			</line>
+			<staticText>
+				<reportElement x="137" y="30" width="280" height="36" forecolor="#FF2A26" uuid="98d14520-407e-4931-ae78-ef9ab3066afb"/>
+				<textElement>
+					<font fontName="Arial Black" size="18" isItalic="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Porcentajes sitios turisticos]]></text>
+			</staticText>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="16" y="66" width="520" height="204" uuid="63a4e90b-745d-4c23-bb4b-9ac51800eee7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{cant_sitios}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cant_sitios}]]></valueExpression>
+						<labelExpression><![CDATA[$F{Recorrido_id} + ""]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
