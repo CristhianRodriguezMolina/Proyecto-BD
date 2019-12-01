@@ -165,7 +165,7 @@ class numeracionPaginas(canvas.Canvas):
 
 # ===================== FUNCIÓN generarReporte =====================
 
-def generarReporte(consulta, mysql, num):
+def generarReporte(consulta, mysql, num, titulo):
     """Ejecutar consulta a la base de datos (DB_USUARIOS) y llamar la función Exportar, la
        cuál esta en la clase reportePDF, a esta clase le pasamos el título de la tabla, la
        cabecera y los datos que llevará."""
@@ -184,21 +184,18 @@ def generarReporte(consulta, mysql, num):
 
     print(datos)
 
-    titulo = ""
     cabecera = ""
 
     if num == 1:
-        titulo = "Reservas para el mes de _____"
         cabecera = (
-        ("ID", "D.N.I"),
-        ("FECHASALIDA", "FECHA DE SALIDA"),
-        ("COSTO", "COSTO"),
-        ("RESERVANTE", "ID RESERVANTE"),
-        ("GUIA_PERSONA_CEDULA", "ID GUIA"),
-        ("FECHALLEGADA", "FECHA DE REGRESO"),
+        ("id", "D.N.I"),
+        ("fechaSalida", "FECHA DE SALIDA"),
+        ("costo", "COSTO"),
+        ("reservante", "ID RESERVANTE"),
+        ("Guia_Persona_cedula", "ID GUIA"),
+        ("fechaLlegada", "FECHA DE REGRESO"),
         )
     elif num == 2:
-        titulo = "Personas con correos con extension de ____"
         cabecera = (
         ("cedula", "CEDULA"),
         ("nombre", "NOMBRE VIAJERO"),
@@ -206,50 +203,42 @@ def generarReporte(consulta, mysql, num):
         ("telefono", "TELEFONO")
         )
     elif num == 3:
-        titulo = "Personas que han viajado en vuelos de ____ pero no en vuelos de ____"
         cabecera = (
         ("cedula", "CEDULA"),
         ("nombre", "NOMBRE VIAJERO"),
         ("referencia", "REFERENCIA DE VUELO")
         )
     elif num == 4:
-        titulo = "Empresas de buses que tiene un promedio de sillas mayor al de la empresa ____"
         cabecera = (
         ("empresa", "EMPRESA"),
         ("prom_asientos", "PROMEDIO ASIENTOS")
         )
     elif num == 5:
-        titulo = "Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles _______"
         cabecera = (
         ("hotel", "EMPRESA DE HOTELES"),
         ("n_clientes", "NUMERO DE HOSPEDANTES")
         )
     elif num == 6:
-        titulo = "Cantidad de personas con cuenta en LACATULI por reserva"
         cabecera = (
         ("Reserva_id", "ID DE LA RESERVA"),
         ("p_con_cuenta", "NUMERO DE PERSONAS")
         )
     elif num == 6:
-        titulo = "Cantidad de personas con cuenta en LACATULI por reserva"
         cabecera = (
         ("Reserva_id", "ID DE LA RESERVA"),
         ("p_con_cuenta", "NUMERO DE PERSONAS")
         )
     elif num == 6:
-        titulo = "Cantidad de personas con cuenta en LACATULI por reserva"
         cabecera = (
         ("Reserva_id", "ID DE LA RESERVA"),
         ("p_con_cuenta", "NUMERO DE PERSONAS")
         )
     elif num == 7:
-        titulo = "Reserva(s) con el grupo más numeroso para el año ____\nAcalaración: Solo aquellas reservas con 2 personas (o más) con cuenta en LACATULI.com"
         cabecera = (
         ("Reserva_id", "ID DE LA RESERVA"),
         ("cant_personas", "NUMERO DE PERSONAS")
         )
     elif num == 8:
-        titulo = "Numero de sitios Turisticos a visitar en cada recorrido"
         cabecera = (
         ("Recorrido_id", "ID DEL RECORRIDO"),
         ("descripcion", "DESCRIPCION"),
