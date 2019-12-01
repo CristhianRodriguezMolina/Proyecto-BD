@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, session, make_response
 from flask_mysqldb import MySQL
+from pyreportjasper import JasperPy
+import os, reportePDF
 #import pdfkit
 
 app = Flask(__name__)
@@ -292,15 +294,22 @@ def generar_reportes(reporte,variable):
 			sql = "SELECT * from Reserva where fechaSalida like '%"+str(variable)+"%'"
 			cur.execute(sql)
 			data = cur.fetchall() 
-
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 1
+			#session["parametros"] = {'fechaSalida_param' : variable}
 			#PDF CRISTHIAN
-			# rendered = render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
-			# pdf = pdfkit.from_string(rendered, False)
+			"""rendered = render_template("index.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
+			css = ["static/lib/bootstrap/css/bootstrap.min.css",
+			"static/css/style.css",
+			"static/css/style-responsive.css",
+			"static/css/table-responsive.css",]
+			pdf = pdfkit.from_string(rendered, False, css=css)
 
-			# response = make_response(pdf)
-			# response.headers['Content-Type'] = 'application/pdf'
-			# response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
-			# return response
+			response = make_response(pdf)
+			response.headers['Content-Type'] = 'application/pdf'
+			response.headers['Content-Disposition'] = 'attachment; filename=output.pdf'
+			return response
+			return rendered"""
 
 			return render_template("descripcion_reporte.html", titulo = "Reservas para el mes de "+str(variable), reporte = data, usuario = session["persona"], tipo = "reservas")
 		elif reporte == "extension_correo":
@@ -309,7 +318,8 @@ def generar_reportes(reporte,variable):
 			sql = f"SELECT * FROM Persona WHERE correo LIKE '%{variable}'"
 			cur.execute(sql)
 			data = cur.fetchall() 
-
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 2
 			#PDF CRISTHIAN
 			# rendered = render_template("descripcion_reporte.html",titulo = "Reservas para el mes de x", reporte = data, usuario = session["persona"])
 			# pdf = pdfkit.from_string(rendered, False)
@@ -321,7 +331,6 @@ def generar_reportes(reporte,variable):
 
 			return render_template("descripcion_reporte.html", titulo = f"Personas con correos con extension de {variable}", reporte = data, usuario = session["persona"], tipo = "extension_correo")
 		elif reporte == "sitios_turisticos":
-
 			cur = mysql.connection.cursor()
 			sql = "SELECT st.nombre AS sitio_turistico, st.direccion, c.nombre AS ciudad, count(per.cedula) AS turistas\n"
 			sql += 	"FROM Persona per, Grupo g, Reserva res, Viaje v, Recorrido rec, Paquete paq, SitioTuristico st, Ciudad c \n"
@@ -336,8 +345,11 @@ def generar_reportes(reporte,variable):
 			sql += 	"GROUP BY st.nombre\n"
 			sql += 	"ORDER BY turistas DESC\n"
 			sql += 	"LIMIT 5"
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = "sitios_turisticos"
+			session["parametros"] = {}
 			return render_template("descripcion_reporte.html", titulo = "Los 5 sitios turisticos mas visitados en todos los tiempos", reporte = data, usuario = session["persona"], tipo = "sitios_turisticos")
 		elif reporte == "reporte_vuelos_personas":
 			vuelos = variable.split(",")
@@ -360,8 +372,10 @@ def generar_reportes(reporte,variable):
 			sql += 		"AND g.Persona_cedula = p.cedula\n"
 			sql += 		f"AND vul.empresa = '{vuelos[1]}'\n"
 			sql += 	")"
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 4
 			titulo = f"Personas que han viajado en vuelos de {vuelos[0]} pero no en vuelos de {vuelos[1]}"
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reporte_vuelos_personas")
 		elif reporte == "prom_sillas_buses":
@@ -372,8 +386,10 @@ def generar_reportes(reporte,variable):
 			sql +=		"SELECT AVG(numAsientos) AS prom_asientos FROM Bus\n"
 			sql +=		f"WHERE empresa LIKE '{variable}'\n"
 			sql += 	")"
-			cur.execute(sql);
+			cur.execute(sql)
 			data = cur.fetchall()
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 5
 			titulo = f"Empresas de buses que tiene un promedio de sillas mayor al de la empresa {variable}"	
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "prom_sillas_buses")
 		elif reporte == "hospedantes_hoteles":
@@ -397,11 +413,25 @@ def generar_reportes(reporte,variable):
 			sql +=	"	AND a.Hotel_nit = h.nit\n"
 			sql +=	f"	AND h.empresa LIKE '{variable}'\n"
 			sql +=	")"
-
+			session["sql_actual"] = sql
+			session["reporte_actual"] = 6
 			cur.execute(sql)
 			data = cur.fetchall()
 			titulo = f"Hoteles que han tenido el mismo numero de hospendantes que la empresa de hoteles {variable}"	
 			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "hospedantes_hoteles")
+		elif reporte == "reservas_personas":
+			cur = mysql.connection.cursor()
+			sql = "SELECT re.id, re.reservante, COUNT(pe.cedula) AS cant_personas\n"
+			sql +="FROM (grupo g INNER JOIN persona pe ON g.persona_cedula = pe.cedula)\n"
+			sql +="INNER JOIN reserva re ON g.reserva_id = re.id\n"
+			sql +="GROUP BY re.id\n"
+			session["sql_actual"] = sql
+			session["reporte_actual"] = "reservas_personas"
+			session["parametros"] = {}
+			cur.execute(sql)
+			data = cur.fetchall()
+			titulo = "Reservas por cantidad de viajeros"
+			return render_template("descripcion_reporte.html", titulo = titulo, reporte = data, usuario = session["persona"], tipo = "reservas_personas")
 		elif reporte == "asociados_por_reserva":
 			cur = mysql.connection.cursor()
 			sql = "SELECT Reserva_id,COUNT(Persona_cedula) as p_con_cuenta "
@@ -471,6 +501,38 @@ def cargar_datos():
 	cur.execute('SELECT empresa FROM Hotel GROUP BY empresa')
 	data3 = cur.fetchall()
 	return render_template("reportes.html", usuario = session["persona"], empresasVuelos = data, empresasBuses = data2, empresasHoteles = data3)
+
+@app.route('/generar_reporte', methods=['POST'])
+def generar_reporte_reservas():
+	if request.method == 'POST':
+		sql = session["sql_actual"]
+		num = session["reporte_actual"]
+		reportePDF.generarReporte(sql, mysql, num)
+		return redirect(url_for("cargar_datos"))
+
+@app.route('/generar_reporte_jasper', methods=['POST'])
+def n():
+	if request.method == 'POST':
+		input_file = os.path.dirname(os.path.abspath(__file__)) + \
+                 '/examples/'+ session["reporte_actual"] +'.jrxml'
+		output = os.path.dirname(os.path.abspath(__file__)) + '/output/examples'
+		con = {
+			'driver': 'mysql',
+			'username': 'admin',
+			'password': '1234',
+			'host': 'localhost',
+			'database': 'lacatuli',
+    	}
+		jasper = JasperPy()
+		jasper.process(
+			input_file,
+			output_file=output,
+			format_list=["pdf"],
+			db_connection=con,
+			parameters=session["parametros"],
+			locale='pt_BR'  # LOCALE Ex.:(en_US, de_GE)
+		)
+		return redirect(url_for("cargar_datos"))
 
 def verificarLogin(usuario, contasenia):
 	pass

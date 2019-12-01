@@ -6,11 +6,14 @@
   {% if tipo == "reservas" %}
 	<section id="main-content">
       <section class="wrapper">
+        <form method="post" action="/generar_reporte">
         <h3><i class="fa fa-angle-right"></i> Resultados </h3>
         <div class="row">
           <div class="col-md-12">
             <div class="content-panel">
               <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+              <hr>
+              <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
               <hr>
               <table class="table">
                 <thead>
@@ -39,16 +42,20 @@
             </div>
           </div>
         </div>
+      </form>
      </section>
 </section>
 {% elif tipo == "sitios_turisticos"%}
 <section id="main-content">
       <section class="wrapper">
+        <form method="post" action="/generar_reporte_jasper">
         <h3><i class="fa fa-angle-right"></i> Resultados</h3>
         <div class="row">
           <div class="col-md-12">
             <div class="content-panel">
               <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+              <hr>
+              <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
               <hr>
               <table class="table">
                 <thead>
@@ -74,17 +81,20 @@
           </div>
         </div>
 
-        
+        </form>
      </section>
-
+    </section>
      {% elif tipo == "reporte_vuelos_personas"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -108,19 +118,22 @@
               </div>
             </div>
 
-            
+          </form>
          </section>
     </section>
-    </section>
+    
 
    {% elif tipo == "prom_sillas_buses"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -142,19 +155,21 @@
               </div>
             </div>
 
-            
+            </form>
          </section>
-    </section>
     </section>
 
 {% elif tipo == "hospedantes_hoteles"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -176,7 +191,7 @@
               </div>
             </div>
 
-            
+            </form>
          </section>
     </section>
     </section>
@@ -218,11 +233,14 @@
   {% elif tipo == "extension_correo"%}
     <section id="main-content">
           <section class="wrapper">
+            <form method="post" action="/generar_reporte">
             <h3><i class="fa fa-angle-right"></i> Resultados</h3>
             <div class="row">
               <div class="col-md-12">
                 <div class="content-panel">
                   <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
                   <hr>
                   <table class="table">
                     <thead>
@@ -248,7 +266,44 @@
               </div>
             </div>
 
-            
+            </form>
+         </section>
+    </section>
+    {% elif tipo == "reservas_personas"%}
+    <section id="main-content">
+          <section class="wrapper">
+            <form method="post" action="/generar_reporte_jasper">
+            <h3><i class="fa fa-angle-right"></i> Resultados</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-panel">
+                  <h4><i class="fa fa-angle-right"></i> {{titulo}}</h4>
+                  <hr>
+                  <button type="submit" class="btn btn-round btn-info">Generar reporte</button>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>ID reserva</th>
+                        <th>ID del reservante</th>
+                        <th>Cantidad de personas en la reserva</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for registro in reporte %}  
+                      <tr">
+                        <td>{{registro[0]}}</td>
+                        <td>{{registro[1]}}</td>
+                        <td>{{registro[2]}}</td>
+                      </tr>
+                     {% endfor %} 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            </form>
          </section>
     </section>
     </section>
@@ -336,5 +391,13 @@
 }
 </script>
          
+
+<script>
+
+function verReporte() {
+  window.location = "/reporte_reserva$" + fecha;
+}
+
+</script>>
 
 {%endblock%}
